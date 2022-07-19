@@ -1,3 +1,5 @@
+[![codecov](https://codecov.io/gh/junara/js_dependency/branch/main/graph/badge.svg?token=GRdbS1xqUa)](https://codecov.io/gh/junara/js_dependency)
+
 # JsDependency
 
 Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/js_dependency`. To experiment with that code, run `bin/console` for an interactive prompt.
