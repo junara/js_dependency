@@ -67,5 +67,31 @@ module JsDependency
       puts str
     end
 
+    desc "children", "export children list"
+    option :src_path, type: :string, aliases: "-s", desc: "Root folder."
+    option :target_path, type: :string, aliases: "-t", desc: "Target file that you want to analyze."
+    option :output_path, type: :string, aliases: "-o", desc: "Output file path"
+    option :child_analyze_level, type: :numeric, aliases: "-c", desc: "Output level of child dependency"
+    def children
+      pathname = Pathname.new(".js_dependency.yml")
+      args = {}
+      args = YAML.safe_load(pathname.read) if pathname.exist?
+
+      src_path = options[:src_path] || args["src_path"]
+      target_path = options[:target_path] || args["target_path"]
+      child_analyze_level = options[:child_analyze_level] || args["child_analyze_level"] || 1
+      output_path = options[:output_path] || args["output_path"] || nil
+      alias_paths = args["alias_paths"] || nil
+
+      str = JsDependency.children(
+        src_path,
+        target_path,
+        child_analyze_level: child_analyze_level,
+        output_path: output_path,
+        alias_paths: alias_paths
+      ).sort.uniq.join("\n")
+
+      puts str
+    end
   end
 end
