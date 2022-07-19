@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.2.0] - 2022-07-19
+
+- Add CLI interface.
+
 ## [0.1.1] - 2022-07-19
 
 - Bug fix of double quotation mark.
