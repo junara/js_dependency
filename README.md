@@ -15,6 +15,41 @@ If bundler is not being used to manage dependencies, install the gem by executin
     $ gem install js_dependency
 
 ## Usage
+### By Command Line
+
+Configuration file is `./.js_dependency.yml`. This file includes parameters for the analysis.
+
+```yaml
+src_path: ./src # Root folder
+target_path: ./src/App.vue # Target file tha you want to analyze
+child_analyze_level: 2 # Output level of child analyze
+parent_analyze_level: 2 # Output level of parent analyze
+name_level: 1 # Output name level
+output_path: ./mermaid.txt # Output file path
+alias_paths: # Alias path
+  "@": ./src
+```
+
+#### Export Mermaid Format
+
+```shell
+js_dependency -s ./src -t ./src/App.vue -o ./mermaid.txt -c 2 -p 2 -n 1
+```
+
+#### Export parents components list
+
+```shell
+js_dependency parents -s ./src -t ./src/App.vue -o ./parents.txt -p 2
+```
+
+#### Export children components list
+
+```shell
+js_dependency childrent -s ./src -t ./src/App.vue -o ./children.txt -c 2
+```
+
+
+### By ruby code
 If your javascript code is in `./src` and `./src/App.vue` is in the directory, you can analyze `./src/App.vue` dependency like this:
 
 ```ruby
