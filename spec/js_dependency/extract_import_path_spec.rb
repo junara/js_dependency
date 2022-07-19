@@ -68,13 +68,29 @@ RSpec.describe JsDependency::ExtractImportPath do
       end
     end
 
-    context "with other code" do
+    context "with other code and single quotation" do
       let(:str) do
         <<~STR
           console.log("fuga");
           import {
             foo,
           } from 'module-name';
+          console.log("hello");
+        STR
+      end
+
+      it "returns an array of paths" do
+        expect(described_class.call(str)).to eq(["module-name"])
+      end
+    end
+
+    context "with other code and double quotation" do
+      let(:str) do
+        <<~STR
+          console.log("fuga");
+          import {
+            foo,
+          } from "module-name";
           console.log("hello");
         STR
       end

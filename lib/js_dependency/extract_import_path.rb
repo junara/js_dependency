@@ -12,11 +12,11 @@ module JsDependency
     def call
       str = @str
       # import defaultExport from 'module-name';
-      paths = str.gsub(/import\s+\S+\s+from\s+"([^']+)"/).with_object([]) { |_, list| list << Regexp.last_match(1) }
+      paths = str.gsub(/import\s+\S+\s+from\s+"([^"]+)"/).with_object([]) { |_, list| list << Regexp.last_match(1) }
       paths += str.gsub(/import\s+\S+\s+from\s+'([^']+)'/).with_object([]) { |_, list| list << Regexp.last_match(1) }
 
       # import * as name from \"module-name\";
-      paths += str.gsub(/import\s+\S+\s+as\s+\S+\s+from\s+"([^']+)"/).with_object([]) do |_, list|
+      paths += str.gsub(/import\s+\S+\s+as\s+\S+\s+from\s+"([^"]+)"/).with_object([]) do |_, list|
         list << Regexp.last_match(1)
       end
       paths += str.gsub(/import\s+\S+\s+as\s+\S+\s+from\s+'([^']+)'/).with_object([]) do |_, list|
@@ -28,7 +28,7 @@ module JsDependency
       # import { export1 , export2 } from "module-name";
       # import { foo , bar } from "module-name/path/to/specific/un-exported/file";
       # import { export1 , export2 as alias2 , [...] } from "module-name";
-      paths += str.gsub(/import\s+\{\s+.+\s+\}\s+from\s+"([^']+)"/).with_object([]) do |_, list|
+      paths += str.gsub(/import\s+\{\s+.+\s+\}\s+from\s+"([^"]+)"/).with_object([]) do |_, list|
         list << Regexp.last_match(1)
       end
       paths += str.gsub(/import\s+\{\s+.+\s+\}\s+from\s+'([^']+)'/).with_object([]) do |_, list|
@@ -36,7 +36,7 @@ module JsDependency
       end
 
       # import defaultExport, { export1 [ , [...] ] } from "module-name";
-      paths += str.gsub(/import\s+\S+,\s+\{\s+.+\s+\}\s+from\s+"([^']+)"/).with_object([]) do |_, list|
+      paths += str.gsub(/import\s+\S+,\s+\{\s+.+\s+\}\s+from\s+"([^"]+)"/).with_object([]) do |_, list|
         list << Regexp.last_match(1)
       end
       paths += str.gsub(/import\s+\S+,\s+\{\s+.+\s+\}\s+from\s+'([^']+)'/).with_object([]) do |_, list|
@@ -44,7 +44,7 @@ module JsDependency
       end
 
       # import defaultExport, * as name from "module-name";
-      paths += str.gsub(/import\s+\S+,\s+.+\s+as\s+\S+\s+from\s+"([^']+)"/).with_object([]) do |_, list|
+      paths += str.gsub(/import\s+\S+,\s+.+\s+as\s+\S+\s+from\s+"([^"]+)"/).with_object([]) do |_, list|
         list << Regexp.last_match(1)
       end
       paths += str.gsub(/import\s+\S+,\s+.+\s+as\s+\S+\s+from\s+'([^']+)'/).with_object([]) do |_, list|
@@ -52,7 +52,7 @@ module JsDependency
       end
 
       # import "module-name";
-      paths += str.gsub(/import\s+"([^']+)"/).with_object([]) do |_, list|
+      paths += str.gsub(/import\s+"([^"]+)"/).with_object([]) do |_, list|
         list << Regexp.last_match(1)
       end
       paths += str.gsub(/import\s+'([^']+)'/).with_object([]) do |_, list|
@@ -60,7 +60,7 @@ module JsDependency
       end
 
       # var promise = import("module-name");
-      paths += str.gsub(/import\("([^']+)"\)/).with_object([]) do |_, list|
+      paths += str.gsub(/import\("([^"]+)"\)/).with_object([]) do |_, list|
         list << Regexp.last_match(1)
       end
       paths += str.gsub(/import\('([^']+)'\)/).with_object([]) do |_, list|
