@@ -3,6 +3,7 @@
 require_relative "js_dependency/version"
 require_relative "js_dependency/index_creator"
 require_relative "js_dependency/mermaid/root"
+require_relative "js_dependency/cli"
 require "pathname"
 
 module JsDependency
