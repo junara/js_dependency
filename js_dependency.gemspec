@@ -31,7 +31,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "pathname"
-
+  spec.add_dependency "thor"
+  spec.add_dependency "yaml"
   spec.add_development_dependency "rspec"
   spec.add_development_dependency "rspec-parameterized"
   spec.add_development_dependency "rubocop"
