@@ -43,6 +43,24 @@ module JsDependency
     output
   end
 
+  def self.parents(src_path, target_path, alias_paths: nil, parent_analyze_level: 1, output_path: nil)
+    output_pathname = Pathname.new(output_path) if output_path
+    index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths)
+
+    target_pathname = if Pathname.new(target_path).relative? && Pathname.new(target_path).exist?
+                        Pathname.new(target_path).realpath
+                      else
+                        Pathname.new(target_path)
+                      end
+    list = []
+    parents_paths(target_pathname, parent_analyze_level, index) do |parent_path, _child_path|
+      list << parent_path
+    end
+    output = list.uniq
+    output_pathname&.write(output)
+    output
+  end
+
   # @param [String] target_path
   # @param [Hash] index
   # @return [Array]
