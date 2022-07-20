@@ -30,6 +30,9 @@ name_level: 1 # Output name level
 output_path: ./mermaid.txt # Output file path
 alias_paths: # Alias path
   "@": ./pages # absolute path or relative path of src_path
+excludes: # Exclude words that you want to skip from export.
+  - excludeWord1
+  - excludeWord2
 ```
 
 Each parameter is overridden by the command line.
@@ -41,6 +44,7 @@ child_analyze_level -> -c
 parent_analyze_level -> -p
 name_level -> -n
 output_path -> -o
+exclude -> -e
 ```
 
 #### Export Mermaid Format

@@ -6,3 +6,6 @@ name_level: 1
 output_path: ./mermaid.txt
 alias_paths:
   "@": ./pages
+excludes:
+  - excludedWord1
+  - excludedWord2

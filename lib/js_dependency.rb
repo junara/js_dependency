@@ -17,8 +17,9 @@ module JsDependency
   # @param [Integer] parent_analyze_level
   # @param [Integer] name_level
   # @param [String, nil] output_path
+  # @param [Array, nil] excludes
   # @return [String]
-  def self.export_mermaid(src_path, target_path, orientation: "LR", alias_paths: nil, child_analyze_level: 1, parent_analyze_level: 1, name_level: 1, output_path: nil)
+  def self.export_mermaid(src_path, target_path, orientation: "LR", alias_paths: nil, child_analyze_level: 1, parent_analyze_level: 1, name_level: 1, output_path: nil, excludes: nil)
     output_pathname = Pathname.new(output_path) if output_path
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths)
 
@@ -30,11 +31,11 @@ module JsDependency
 
     root = JsDependency::Mermaid::Root.new(orientation)
 
-    parents_paths(target_pathname, parent_analyze_level, index) do |parent_path, child_path|
+    parents_paths(target_pathname, parent_analyze_level, index, excludes: excludes) do |parent_path, child_path|
       root.add(parent_path, child_path)
     end
 
-    children_paths(target_pathname, child_analyze_level, index) do |parent_path, child_path|
+    children_paths(target_pathname, child_analyze_level, index, excludes: excludes) do |parent_path, child_path|
       root.add(parent_path, child_path)
     end
 
@@ -43,7 +44,7 @@ module JsDependency
     output
   end
 
-  def self.parents(src_path, target_path, alias_paths: nil, parent_analyze_level: 1, output_path: nil)
+  def self.parents(src_path, target_path, alias_paths: nil, parent_analyze_level: 1, output_path: nil, excludes: nil)
     output_pathname = Pathname.new(output_path) if output_path
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths)
 
@@ -53,7 +54,7 @@ module JsDependency
                         Pathname.new(target_path)
                       end
     list = []
-    parents_paths(target_pathname, parent_analyze_level, index) do |parent_path, _child_path|
+    parents_paths(target_pathname, parent_analyze_level, index, excludes: excludes) do |parent_path, _child_path|
       list << parent_path
     end
     output = list.uniq
@@ -61,7 +62,7 @@ module JsDependency
     output
   end
 
-  def self.children(src_path, target_path, alias_paths: nil, child_analyze_level: 1, output_path: nil)
+  def self.children(src_path, target_path, alias_paths: nil, child_analyze_level: 1, output_path: nil, excludes: nil)
     output_pathname = Pathname.new(output_path) if output_path
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths)
 
@@ -71,7 +72,7 @@ module JsDependency
                         Pathname.new(target_path)
                       end
     list = []
-    children_paths(target_pathname, child_analyze_level, index) do |_parent_path, child_path|
+    children_paths(target_pathname, child_analyze_level, index, excludes: excludes) do |_parent_path, child_path|
       list << child_path
     end
     output = list.uniq
@@ -92,6 +93,7 @@ module JsDependency
       list << parent if children.any?(target_pathname.to_s)
     end
   end
+
   private_class_method :extract_parent_paths
 
   # @param [String] target_path
@@ -105,6 +107,7 @@ module JsDependency
                       end
     index[target_pathname.to_s] || []
   end
+
   private_class_method :extract_children_paths
 
   # @param [String] src
@@ -112,9 +115,10 @@ module JsDependency
   def self.create_index(src_path, alias_paths: nil)
     JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths)
   end
+
   private_class_method :create_index
 
-  def self.parents_paths(target_pathname, analyze_level, index)
+  def self.parents_paths(target_pathname, analyze_level, index, excludes: nil)
     temp_paths = [target_pathname.to_s]
     analyze_level.times do
       list = []
@@ -126,15 +130,18 @@ module JsDependency
                         end
 
         list += extract_parent_paths(temp_pathname.to_s, index).each do |parent_path|
+          next if excludes&.any? { |ignore| parent_path.to_s.include?(ignore) }
+
           yield parent_path, temp_pathname.to_s
         end
       end
       temp_paths = list
     end
   end
+
   private_class_method :parents_paths
 
-  def self.children_paths(target_pathname, analyze_level, index)
+  def self.children_paths(target_pathname, analyze_level, index, excludes: nil)
     temp_paths = [target_pathname.to_s]
     analyze_level.times do
       list = []
@@ -146,11 +153,14 @@ module JsDependency
                         end
 
         list += extract_children_paths(temp_pathname.to_s, index).each do |child_path|
+          next if excludes&.any? { |ignore| child_path.to_s.include?(ignore) }
+
           yield temp_pathname.to_s, child_path
         end
       end
       temp_paths = list
     end
   end
+
   private_class_method :children_paths
 end
