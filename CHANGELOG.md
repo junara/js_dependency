@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## [0.2.2] - 2022-07-21
+
+- Add CLI option parameter "exclude".
+- Add yaml configuration option parameter "excludes" that is array of "exclude".
+
 ## [0.2.1] - 2022-07-20
 
 - Output parents and children cli with line brake and sort.
