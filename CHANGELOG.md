@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.2.3] - 2022-07-21
+
+- Fix for script tag with line brake.
+
 ## [0.2.2] - 2022-07-21
 
 - Add CLI option parameter "exclude".
