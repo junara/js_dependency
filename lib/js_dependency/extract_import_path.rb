@@ -7,7 +7,7 @@ module JsDependency
       @str = str
     end
 
-    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
     # @return [Array<String>]
     def call
       str = @str
@@ -68,7 +68,7 @@ module JsDependency
       end
       paths.uniq.sort
     end
-    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/PerceivedComplexity
+    # rubocop:enable Metrics/MethodLength, Metrics/AbcSize
 
     def self.call(str)
       new(str).call
