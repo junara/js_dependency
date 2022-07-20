@@ -17,7 +17,7 @@ module JsDependency
 
       def export(name_level: 1)
         str = "flowchart #{orientation}\n"
-        str + @list.sort_by(&:parent).uniq { |link| "#{link.parent}__#{link.child}" }.map do |link|
+        str + @list.uniq { |link| "#{link.parent}__#{link.child}" }.sort_by { |link| "#{link.parent}__#{link.child}" }.map do |link|
           "#{link.parent_module_name(name_level)} --> #{link.child_module_name(name_level)}"
         end.join("\n")
       end
