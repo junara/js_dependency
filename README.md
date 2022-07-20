@@ -29,7 +29,18 @@ parent_analyze_level: 2 # Output level of parent analyze
 name_level: 1 # Output name level
 output_path: ./mermaid.txt # Output file path
 alias_paths: # Alias path
-  "@": ./src
+  "@": ./pages # absolute path or relative path of src_path
+```
+
+Each parameter is overridden by the command line.
+
+```
+src_path -> -s
+target_path -> -t
+child_analyze_level -> -c
+parent_analyze_level -> -p
+name_level -> -n
+output_path -> -o
 ```
 
 #### Export Mermaid Format
