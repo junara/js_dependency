@@ -5,4 +5,4 @@ parent_analyze_level: 2
 name_level: 1
 output_path: ./mermaid.txt
 alias_paths:
-  "@": ./src
+  "@": ./pages
