@@ -57,7 +57,7 @@ module JsDependency
       list << parent_path
     end
     output = list.uniq
-    output_pathname&.write(output.join("\n"))
+    output_pathname&.write(output.sort.join("\n"))
     output
   end
 
@@ -75,7 +75,7 @@ module JsDependency
       list << child_path
     end
     output = list.uniq
-    output_pathname&.write(output.join("\n"))
+    output_pathname&.write(output.sort.join("\n"))
     output
   end
 
