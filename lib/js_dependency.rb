@@ -130,7 +130,7 @@ module JsDependency
                         end
 
         list += extract_parent_paths(temp_pathname.to_s, index).each do |parent_path|
-          next if excludes&.any? { |ignore| parent_path.to_s.include?(ignore) }
+          next if excludes&.any? { |ignore| parent_path.to_s.include?(ignore) || temp_pathname.to_s.include?(ignore) }
 
           yield parent_path, temp_pathname.to_s
         end
@@ -153,7 +153,7 @@ module JsDependency
                         end
 
         list += extract_children_paths(temp_pathname.to_s, index).each do |child_path|
-          next if excludes&.any? { |ignore| child_path.to_s.include?(ignore) }
+          next if excludes&.any? { |ignore| child_path.to_s.include?(ignore) || temp_pathname.to_s.include?(ignore) }
 
           yield temp_pathname.to_s, child_path
         end
