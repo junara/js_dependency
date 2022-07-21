@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## [0.2.3.1] - 2022-07-21
+
+- Revert for script tag with line brake.
+- Fix exclude pattern.
+
 ## [0.2.3] - 2022-07-21
 
 - Fix for script tag with line brake.
