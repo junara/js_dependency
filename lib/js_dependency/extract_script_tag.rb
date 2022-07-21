@@ -10,7 +10,7 @@ module JsDependency
     # @return [Array<String>]
     def call
       str = @str
-      scripts = str.gsub(%r{<script.*>(.+)</script>}m).with_object([]) do |_, list|
+      scripts = str.gsub(%r{<script>(.+)</script>}m).with_object([]) do |_, list|
         list << Regexp.last_match(1)
       end
 
