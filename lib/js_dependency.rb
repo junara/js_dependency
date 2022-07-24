@@ -23,11 +23,7 @@ module JsDependency
     output_pathname = Pathname.new(output_path) if output_path
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths)
 
-    target_pathname = if Pathname.new(target_path).relative? && Pathname.new(target_path).exist?
-                        Pathname.new(target_path).realpath
-                      else
-                        Pathname.new(target_path)
-                      end
+    target_pathname = JsDependency::PathnameUtility.to_target_pathname(target_path)
 
     root = JsDependency::Mermaid::Root.new(orientation)
 
@@ -48,11 +44,7 @@ module JsDependency
     output_pathname = Pathname.new(output_path) if output_path
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths)
 
-    target_pathname = if Pathname.new(target_path).relative? && Pathname.new(target_path).exist?
-                        Pathname.new(target_path).realpath
-                      else
-                        Pathname.new(target_path)
-                      end
+    target_pathname = JsDependency::PathnameUtility.to_target_pathname(target_path)
     list = []
     parents_paths(target_pathname, parent_analyze_level, index, excludes: excludes) do |parent_path, _child_path|
       list << parent_path
@@ -66,11 +58,7 @@ module JsDependency
     output_pathname = Pathname.new(output_path) if output_path
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths)
 
-    target_pathname = if Pathname.new(target_path).relative? && Pathname.new(target_path).exist?
-                        Pathname.new(target_path).realpath
-                      else
-                        Pathname.new(target_path)
-                      end
+    target_pathname = JsDependency::PathnameUtility.to_target_pathname(target_path)
     list = []
     children_paths(target_pathname, child_analyze_level, index, excludes: excludes) do |_parent_path, child_path|
       list << child_path
@@ -84,11 +72,7 @@ module JsDependency
   # @param [Hash] index
   # @return [Array]
   def self.extract_parent_paths(target_path, index)
-    target_pathname = if Pathname.new(target_path).exist?
-                        Pathname.new(target_path).realpath
-                      else
-                        Pathname.new(target_path)
-                      end
+    target_pathname = JsDependency::PathnameUtility.to_target_pathname(target_path)
     index.each_with_object([]) do |(parent, children), list|
       list << parent if children.any?(target_pathname.to_s)
     end
@@ -100,11 +84,7 @@ module JsDependency
   # @param [Hash] index
   # @return [Array]
   def self.extract_children_paths(target_path, index)
-    target_pathname = if Pathname.new(target_path).exist?
-                        Pathname.new(target_path).realpath
-                      else
-                        Pathname.new(target_path)
-                      end
+    target_pathname = JsDependency::PathnameUtility.to_target_pathname(target_path)
     index[target_pathname.to_s] || []
   end
 
@@ -123,11 +103,7 @@ module JsDependency
     analyze_level.times do
       list = []
       temp_paths.each do |temp_path|
-        temp_pathname = if Pathname.new(temp_path).relative? && Pathname.new(temp_path).exist?
-                          Pathname.new(temp_path).realpath
-                        else
-                          Pathname.new(temp_path)
-                        end
+        temp_pathname = JsDependency::PathnameUtility.to_target_pathname(temp_path)
 
         list += extract_parent_paths(temp_pathname.to_s, index).each do |parent_path|
           next if excludes&.any? { |ignore| parent_path.to_s.include?(ignore) || temp_pathname.to_s.include?(ignore) }
@@ -146,11 +122,7 @@ module JsDependency
     analyze_level.times do
       list = []
       temp_paths.each do |temp_path|
-        temp_pathname = if Pathname.new(temp_path).relative? && Pathname.new(temp_path).exist?
-                          Pathname.new(temp_path).realpath
-                        else
-                          Pathname.new(temp_path)
-                        end
+        temp_pathname = JsDependency::PathnameUtility.to_target_pathname(temp_path)
 
         list += extract_children_paths(temp_pathname.to_s, index).each do |child_path|
           next if excludes&.any? { |ignore| child_path.to_s.include?(ignore) || temp_pathname.to_s.include?(ignore) }

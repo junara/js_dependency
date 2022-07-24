@@ -13,5 +13,13 @@ module JsDependency
 
       pathname
     end
+
+    def self.to_target_pathname(target_path)
+      if Pathname.new(target_path).relative? && Pathname.new(target_path).exist?
+        Pathname.new(target_path).realpath
+      else
+        Pathname.new(target_path)
+      end
+    end
   end
 end
