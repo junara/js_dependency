@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require_relative "pathname_utility"
 module JsDependency
   class TargetPathname
     # @param [String] target_path
@@ -20,7 +19,7 @@ module JsDependency
       analyze_level.times do
         list = []
         temp_paths.each do |temp_path|
-          temp_pathname = JsDependency::PathnameUtility.to_target_pathname(temp_path)
+          temp_pathname = to_target_pathname(temp_path)
 
           list += extract_parent_paths(temp_pathname.to_s, index).each do |parent_path|
             next if excludes&.any? { |ignore| parent_path.to_s.include?(ignore) || temp_pathname.to_s.include?(ignore) }
@@ -40,7 +39,7 @@ module JsDependency
       analyze_level.times do
         list = []
         temp_paths.each do |temp_path|
-          temp_pathname = JsDependency::PathnameUtility.to_target_pathname(temp_path)
+          temp_pathname = to_target_pathname(temp_path)
 
           list += extract_children_paths(temp_pathname.to_s, index).each do |child_path|
             next if excludes&.any? { |ignore| child_path.to_s.include?(ignore) || temp_pathname.to_s.include?(ignore) }
@@ -68,6 +67,14 @@ module JsDependency
     # @return [Array]
     def extract_children_paths(target_path, index)
       index[target_path] || []
+    end
+
+    def to_target_pathname(target_path)
+      if Pathname.new(target_path).relative? && Pathname.new(target_path).exist?
+        Pathname.new(target_path).realpath
+      else
+        Pathname.new(target_path)
+      end
     end
   end
 end
