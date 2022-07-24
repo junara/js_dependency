@@ -13,8 +13,7 @@ module JsDependency
 
     # @param [Integer] analyze_level
     # @param [Hash] index
-    # @param [nil, Array] excludes
-    def each_parent_path(analyze_level, index, excludes: nil)
+    def each_parent_path(analyze_level, index)
       temp_paths = [@pathname.to_s]
       analyze_level.times do
         list = []
@@ -22,8 +21,6 @@ module JsDependency
           temp_pathname = to_target_pathname(temp_path)
 
           list += extract_parent_paths(temp_pathname.to_s, index).each do |parent_path|
-            next if excludes&.any? { |ignore| parent_path.to_s.include?(ignore) || temp_pathname.to_s.include?(ignore) }
-
             yield parent_path, temp_pathname.to_s
           end
         end
@@ -33,8 +30,7 @@ module JsDependency
 
     # @param [Integer] analyze_level
     # @param [Hash] index
-    # @param [nil, Array] excludes
-    def each_child_path(analyze_level, index, excludes: nil)
+    def each_child_path(analyze_level, index)
       temp_paths = [@pathname.to_s]
       analyze_level.times do
         list = []
@@ -42,8 +38,6 @@ module JsDependency
           temp_pathname = to_target_pathname(temp_path)
 
           list += extract_children_paths(temp_pathname.to_s, index).each do |child_path|
-            next if excludes&.any? { |ignore| child_path.to_s.include?(ignore) || temp_pathname.to_s.include?(ignore) }
-
             yield temp_pathname.to_s, child_path
           end
         end

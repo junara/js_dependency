@@ -12,8 +12,11 @@ module JsDependency
       @alias_paths = alias_paths
     end
 
-    def self.call(src, alias_paths: nil)
-      new(src, alias_paths: alias_paths).call
+    def self.call(src, alias_paths: nil, excludes: nil)
+      index = new(src, alias_paths: alias_paths).call
+      index.transform_values do |value|
+        value.reject { |path| excludes&.any? { |exclude| path.include?(exclude) } }
+      end
     end
 
     def call

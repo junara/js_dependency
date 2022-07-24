@@ -22,17 +22,17 @@ module JsDependency
   # @return [String]
   def self.export_mermaid(src_path, target_path, orientation: "LR", alias_paths: nil, child_analyze_level: 1, parent_analyze_level: 1, name_level: 1, output_path: nil, excludes: nil)
     output_pathname = Pathname.new(output_path) if output_path
-    index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths)
+    index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
 
     target_pathname = JsDependency::TargetPathname.new(target_path)
 
     mermaid_root = JsDependency::Mermaid::Root.new(orientation)
 
-    target_pathname.each_parent_path(parent_analyze_level, index, excludes: excludes) do |parent_path, child_path|
+    target_pathname.each_parent_path(parent_analyze_level, index) do |parent_path, child_path|
       mermaid_root.add(parent_path, child_path)
     end
 
-    target_pathname.each_child_path(child_analyze_level, index, excludes: excludes) do |parent_path, child_path|
+    target_pathname.each_child_path(child_analyze_level, index) do |parent_path, child_path|
       mermaid_root.add(parent_path, child_path)
     end
 
@@ -43,11 +43,11 @@ module JsDependency
 
   def self.parents(src_path, target_path, alias_paths: nil, parent_analyze_level: 1, output_path: nil, excludes: nil)
     output_pathname = Pathname.new(output_path) if output_path
-    index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths)
+    index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
 
     target_pathname = JsDependency::TargetPathname.new(target_path)
     list = []
-    target_pathname.each_parent_path(parent_analyze_level, index, excludes: excludes) do |parent_path, _child_path|
+    target_pathname.each_parent_path(parent_analyze_level, index) do |parent_path, _child_path|
       list << parent_path
     end
     output = list.uniq.sort
@@ -57,11 +57,11 @@ module JsDependency
 
   def self.children(src_path, target_path, alias_paths: nil, child_analyze_level: 1, output_path: nil, excludes: nil)
     output_pathname = Pathname.new(output_path) if output_path
-    index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths)
+    index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
 
     target_pathname = JsDependency::TargetPathname.new(target_path)
     list = []
-    target_pathname.each_child_path(child_analyze_level, index, excludes: excludes) do |_parent_path, child_path|
+    target_pathname.each_child_path(child_analyze_level, index) do |_parent_path, child_path|
       list << child_path
     end
     output = list.uniq.sort
