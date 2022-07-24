@@ -19,8 +19,8 @@ module JsDependency
         nodes_links = if src_path
                         src_pathname = Pathname.new(src_path).realpath
                         @list.map do |nodes_link|
-                          NodesLink.new(nodes_link.parent.relative_path_from(src_pathname.to_s),
-                                        nodes_link.child.relative_path_from(src_pathname.to_s))
+                          NodesLink.new(nodes_link.parent.exist? ? nodes_link.parent.relative_path_from(src_pathname.to_s) : nodes_link.parent.to_s,
+                                        nodes_link.child.exist? ? nodes_link.child.relative_path_from(src_pathname.to_s) : nodes_link.child.to_s)
                         end
                       else
                         @list

@@ -11,16 +11,20 @@ module JsDependency
       end
 
       def parent_module_name(level = 0)
-        parse(@parent, level).join("/")
+        mermaid_str(@parent, level)
       end
 
       def child_module_name(level = 0)
-        parse(@child, level).join("/")
+        mermaid_str(@child, level)
       end
 
       private
 
-      def parse(pathname, level)
+      def mermaid_str(pathname, level = 0)
+        "#{parse(pathname).join("_")}[\"#{parse(pathname, level).join("/")}\"]"
+      end
+
+      def parse(pathname, level = -1)
         pathname.each_filename.with_object([]) { |filename, array| array << filename }.reverse[0..level].reverse
       end
     end
