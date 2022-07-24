@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+## [0.3.0] - 2022-07-24
+
+- Stable mermaid support.
+- Stable `excludes` option.
+- Refactor JsDependency class method using `JsDependency::TargetPathname`.
+
 ## [0.2.3.1] - 2022-07-21
 
 - Revert for script tag with line brake.
