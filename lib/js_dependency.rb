@@ -66,12 +66,12 @@ module JsDependency
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
 
     target_pathname = JsDependency::TargetPathname.new(target_path)
-    list = []
+    paths = []
     target_pathname.each_parent_path(parent_analyze_level, index) do |parent_path, _child_path|
-      list << parent_path
+      paths << parent_path
     end
-    output = list.uniq.sort.map do |path|
-      Pathname.new(path).relative_path_from(Pathname.new(src_path).realpath.to_s)
+    output = paths.uniq.sort.map do |path|
+      Pathname.new(path).exist? ? Pathname.new(path).relative_path_from(Pathname.new(src_path).realpath.to_s).to_s : Pathname.new(path).to_s
     end
     output_pathname&.write(output.sort.join("\n"))
     output
@@ -90,12 +90,12 @@ module JsDependency
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
 
     target_pathname = JsDependency::TargetPathname.new(target_path)
-    list = []
+    paths = []
     target_pathname.each_child_path(child_analyze_level, index) do |_parent_path, child_path|
-      list << child_path
+      paths << child_path
     end
-    output = list.uniq.sort.map do |path|
-      Pathname.new(path).relative_path_from(Pathname.new(src_path).realpath.to_s)
+    output = paths.uniq.sort.map do |path|
+      Pathname.new(path).exist? ? Pathname.new(path).relative_path_from(Pathname.new(src_path).realpath.to_s).to_s : Pathname.new(path).to_s
     end
     output_pathname&.write(output.sort.join("\n"))
     output
