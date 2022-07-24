@@ -26,17 +26,17 @@ module JsDependency
 
     target_pathname = JsDependency::TargetPathname.new(target_path)
 
-    root = JsDependency::Mermaid::Root.new(orientation)
+    mermaid_root = JsDependency::Mermaid::Root.new(orientation)
 
     target_pathname.each_parent_path(parent_analyze_level, index, excludes: excludes) do |parent_path, child_path|
-      root.add(parent_path, child_path)
+      mermaid_root.add(parent_path, child_path)
     end
 
     target_pathname.each_child_path(child_analyze_level, index, excludes: excludes) do |parent_path, child_path|
-      root.add(parent_path, child_path)
+      mermaid_root.add(parent_path, child_path)
     end
 
-    output = root.export(name_level: name_level)
+    output = mermaid_root.export(name_level: name_level)
     output_pathname&.write(output)
     output
   end
