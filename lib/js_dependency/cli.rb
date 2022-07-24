@@ -78,7 +78,7 @@ module JsDependency
         output_path: output_path,
         alias_paths: alias_paths,
         excludes: excludes
-      ).sort.uniq.join("\n")
+      ).join("\n")
 
       puts str
     end
@@ -113,7 +113,7 @@ module JsDependency
         output_path: output_path,
         alias_paths: alias_paths,
         excludes: excludes
-      ).sort.uniq.join("\n")
+      ).join("\n")
 
       puts str
     end

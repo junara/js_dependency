@@ -6,29 +6,26 @@ module JsDependency
       attr_reader :parent, :child
 
       def initialize(parent, child)
-        @parent = parent
-        @child = child
+        @parent = Pathname.new(parent)
+        @child = Pathname.new(child)
       end
 
       def parent_module_name(level = 0)
-        parse(Pathname.new(@parent), level).join("/")
+        mermaid_str(@parent, level)
       end
 
       def child_module_name(level = 0)
-        parse(Pathname.new(@child), level).join("/")
+        mermaid_str(@child, level)
       end
 
       private
 
-      def parse(pathname, level)
-        return [pathname.to_s] unless pathname.exist?
+      def mermaid_str(pathname, level = 0)
+        "#{parse(pathname).join("_")}[\"#{parse(pathname, level).join("/")}\"]"
+      end
 
-        array = [pathname.basename]
-        level.times do
-          array.unshift(pathname.parent.basename.to_s)
-          pathname = pathname.parent
-        end
-        array
+      def parse(pathname, level = -1)
+        pathname.each_filename.with_object([]) { |filename, array| array << filename }.reverse[0..level].reverse
       end
     end
   end
