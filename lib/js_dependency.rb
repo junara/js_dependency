@@ -50,7 +50,9 @@ module JsDependency
     target_pathname.each_parent_path(parent_analyze_level, index) do |parent_path, _child_path|
       list << parent_path
     end
-    output = list.uniq.sort
+    output = list.uniq.sort.map do |path|
+      Pathname.new(path).relative_path_from(Pathname.new(src_path).realpath.to_s)
+    end
     output_pathname&.write(output.sort.join("\n"))
     output
   end
@@ -64,7 +66,9 @@ module JsDependency
     target_pathname.each_child_path(child_analyze_level, index) do |_parent_path, child_path|
       list << child_path
     end
-    output = list.uniq.sort
+    output = list.uniq.sort.map do |path|
+      Pathname.new(path).relative_path_from(Pathname.new(src_path).realpath.to_s)
+    end
     output_pathname&.write(output.sort.join("\n"))
     output
   end
