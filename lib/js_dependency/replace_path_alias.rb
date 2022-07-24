@@ -36,6 +36,7 @@ module JsDependency
       str
     end
 
+    # @return [Array<String>]
     def safe_list
       ["@rails/ujs"]
     end

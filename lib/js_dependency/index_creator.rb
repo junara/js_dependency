@@ -7,11 +7,16 @@ require_relative "pathname_utility"
 
 module JsDependency
   class IndexCreator
+    # @param [String] src
+    # @param [Array<String>] alias_paths
     def initialize(src, alias_paths: nil)
       @src = src
       @alias_paths = alias_paths
     end
 
+    # @param [String] src
+    # @param [Array<String>] alias_paths
+    # @param [Array<String>] excludes
     def self.call(src, alias_paths: nil, excludes: nil)
       index = new(src, alias_paths: alias_paths).call
       index.transform_values do |value|
@@ -19,6 +24,7 @@ module JsDependency
       end
     end
 
+    # @return [Hash]
     def call
       src_pathname = Pathname.new(@src).relative? ? Pathname.new(@src).realpath : Pathname.new(@src)
       raise Error, "#{@src} is not directory." unless src_pathname.directory?
@@ -31,6 +37,9 @@ module JsDependency
 
     private
 
+    # @param [Pathname] src_pathname
+    # @param [Array<String>] alias_paths
+    # @return [Hash]
     def index_from(src_pathname, alias_paths)
       pattern = %w[**/*.vue **/*.js **/*.jsx]
 
@@ -44,6 +53,9 @@ module JsDependency
       end
     end
 
+    # @param [Pathname] component_pathname
+    # @param [Array<String>] alias_paths
+    # @return [Array<Pathname>]
     def import_pathnames_from(component_pathname, alias_paths)
       component_dirname = component_pathname.dirname
       script_str = extract_script_string(component_pathname)
@@ -52,6 +64,10 @@ module JsDependency
       end
     end
 
+    # @param [String] import_path
+    # @param [Array<String>] alias_paths
+    # @param [Pathname] component_dirname
+    # @return [Pathname]
     def standardize_path(import_path, alias_paths, component_dirname)
       import_pathname = Pathname.new(replace_path_alias(import_path, alias_paths))
 
@@ -67,6 +83,8 @@ module JsDependency
       import_pathname.cleanpath
     end
 
+    # @param [Pathname] pathname
+    # @return [String]
     def extract_script_string(pathname)
       str = pathname.read
       extname = pathname.extname
@@ -75,6 +93,9 @@ module JsDependency
       JsDependency::ExtractScriptTag.call(str)
     end
 
+    # @param [String] path
+    # @param [Array<String>] alias_paths
+    # @return [String]
     def replace_path_alias(path, alias_paths)
       JsDependency::ReplacePathAlias.call(path, alias_paths)
     end

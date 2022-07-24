@@ -2,6 +2,8 @@
 
 module JsDependency
   module PathnameUtility
+    # @param [Pathname] pathname
+    # @return [Pathname]
     def self.complement_extname(pathname)
       return pathname if pathname.exist? || pathname.extname != ""
 
@@ -14,6 +16,8 @@ module JsDependency
       pathname
     end
 
+    # @param [String] target_path
+    # @return [Pathname]
     def self.to_target_pathname(target_path)
       if Pathname.new(target_path).relative? && Pathname.new(target_path).exist?
         Pathname.new(target_path).realpath

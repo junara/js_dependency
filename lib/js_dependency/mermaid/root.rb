@@ -19,7 +19,7 @@ module JsDependency
       end
 
       # @param [Integer] name_level
-      # @param [nil] src_path
+      # @param [nil, String] src_path
       # @return [String]
       def export(name_level: 1, src_path: nil)
         ([export_header] + export_nodes(name_level: name_level, src_path: src_path)).join("\n")

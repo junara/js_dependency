@@ -17,6 +17,8 @@ module JsDependency
       scripts.uniq.sort.join("\n")
     end
 
+    # @param [String] str
+    # @return [String]
     def self.call(str)
       new(str).call
     end

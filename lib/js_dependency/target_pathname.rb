@@ -63,6 +63,8 @@ module JsDependency
       index[target_path] || []
     end
 
+    # @param [String] target_path
+    # @return [Pathname]
     def to_target_pathname(target_path)
       if Pathname.new(target_path).relative? && Pathname.new(target_path).exist?
         Pathname.new(target_path).realpath
