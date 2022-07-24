@@ -49,8 +49,16 @@ exclude -> -e
 
 #### Export Mermaid Format
 
+##### Single target path
+
 ```shell
 js_dependency -s ./src -t ./src/App.vue -o ./mermaid.txt -c 2 -p 2 -n 1
+```
+
+##### Multiple target paths
+
+```shell
+js_dependency -s ./src -t ./src/App.vue ./src/components/Sub.vue -o ./mermaid.txt -c 2 -p 2 -n 1
 ```
 
 #### Export parents components list

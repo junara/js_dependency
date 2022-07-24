@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.3.1] - 2022-07-25
+
+- Multiple target paths for JsDependency.export and export_mermaid CLI.
+
 ## [0.3.0] - 2022-07-24
 
 - Stable mermaid support.
