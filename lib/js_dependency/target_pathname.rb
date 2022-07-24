@@ -3,6 +3,7 @@
 require_relative "pathname_utility"
 module JsDependency
   class TargetPathname
+    # @param [String] target_path
     def initialize(target_path)
       @pathname = if Pathname.new(target_path).relative? && Pathname.new(target_path).exist?
                     Pathname.new(target_path).realpath
@@ -11,6 +12,9 @@ module JsDependency
                   end
     end
 
+    # @param [Integer] analyze_level
+    # @param [Hash] index
+    # @param [nil, Array] excludes
     def each_parent_path(analyze_level, index, excludes: nil)
       temp_paths = [@pathname.to_s]
       analyze_level.times do
@@ -28,6 +32,9 @@ module JsDependency
       end
     end
 
+    # @param [Integer] analyze_level
+    # @param [Hash] index
+    # @param [nil, Array] excludes
     def each_child_path(analyze_level, index, excludes: nil)
       temp_paths = [@pathname.to_s]
       analyze_level.times do
