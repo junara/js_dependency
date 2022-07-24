@@ -36,7 +36,7 @@ module JsDependency
       mermaid_root.add(parent_path, child_path)
     end
 
-    output = mermaid_root.export(name_level: name_level)
+    output = mermaid_root.export(name_level: name_level, src_path: src_path)
     output_pathname&.write(output)
     output
   end
