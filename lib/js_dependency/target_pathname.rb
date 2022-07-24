@@ -11,7 +11,7 @@ module JsDependency
                   end
     end
 
-    def parents_paths(analyze_level, index, excludes: nil)
+    def each_parent_path(analyze_level, index, excludes: nil)
       temp_paths = [@pathname.to_s]
       analyze_level.times do
         list = []
@@ -28,7 +28,7 @@ module JsDependency
       end
     end
 
-    def children_paths(analyze_level, index, excludes: nil)
+    def each_child_path(analyze_level, index, excludes: nil)
       temp_paths = [@pathname.to_s]
       analyze_level.times do
         list = []

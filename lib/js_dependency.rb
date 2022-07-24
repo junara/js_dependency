@@ -28,11 +28,11 @@ module JsDependency
 
     root = JsDependency::Mermaid::Root.new(orientation)
 
-    target_pathname.parents_paths(parent_analyze_level, index, excludes: excludes) do |parent_path, child_path|
+    target_pathname.each_parent_path(parent_analyze_level, index, excludes: excludes) do |parent_path, child_path|
       root.add(parent_path, child_path)
     end
 
-    target_pathname.children_paths(child_analyze_level, index, excludes: excludes) do |parent_path, child_path|
+    target_pathname.each_child_path(child_analyze_level, index, excludes: excludes) do |parent_path, child_path|
       root.add(parent_path, child_path)
     end
 
@@ -47,7 +47,7 @@ module JsDependency
 
     target_pathname = JsDependency::TargetPathname.new(target_path)
     list = []
-    target_pathname.parents_paths(parent_analyze_level, index, excludes: excludes) do |parent_path, _child_path|
+    target_pathname.each_parent_path(parent_analyze_level, index, excludes: excludes) do |parent_path, _child_path|
       list << parent_path
     end
     output = list.uniq
@@ -61,7 +61,7 @@ module JsDependency
 
     target_pathname = JsDependency::TargetPathname.new(target_path)
     list = []
-    target_pathname.children_paths(child_analyze_level, index, excludes: excludes) do |_parent_path, child_path|
+    target_pathname.each_child_path(child_analyze_level, index, excludes: excludes) do |_parent_path, child_path|
       list << child_path
     end
     output = list.uniq
