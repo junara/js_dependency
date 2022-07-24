@@ -11,6 +11,14 @@ module JsDependency
   class Error < StandardError; end
 
   # @param [String] src_path
+  # @param [Hash, nil] alias_paths
+  # @param [Array, nil] excludes
+  # @return [Hash]
+  def self.export_index(src_path, alias_paths: nil, excludes: nil)
+    JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
+  end
+
+  # @param [String] src_path
   # @param [String] target_path
   # @param [String] orientation
   # @param [Hash, nil] alias_paths
