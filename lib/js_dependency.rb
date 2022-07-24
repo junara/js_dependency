@@ -19,7 +19,7 @@ module JsDependency
   end
 
   # @param [String] src_path
-  # @param [String] target_path
+  # @param [Array<String>] target_paths
   # @param [String] orientation
   # @param [Hash, nil] alias_paths
   # @param [Integer] child_analyze_level
@@ -28,23 +28,27 @@ module JsDependency
   # @param [String, nil] output_path
   # @param [Array, nil] excludes
   # @return [String]
-  def self.export_mermaid(src_path, target_path, orientation: "LR", alias_paths: nil, child_analyze_level: 1, parent_analyze_level: 1, name_level: 1, output_path: nil, excludes: nil)
+  def self.export_mermaid(src_path, target_paths, orientation: "LR", alias_paths: nil, child_analyze_level: 1, parent_analyze_level: 1, name_level: 1, output_path: nil, excludes: nil)
     output_pathname = Pathname.new(output_path) if output_path
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
 
-    target_pathname = JsDependency::TargetPathname.new(target_path)
+    nodes = []
+    target_paths.each do |target_path|
+      target_pathname = JsDependency::TargetPathname.new(target_path)
 
-    mermaid_root = JsDependency::Mermaid::Root.new(orientation)
+      mermaid_root = JsDependency::Mermaid::Root.new(orientation)
 
-    target_pathname.each_parent_path(parent_analyze_level, index) do |parent_path, child_path|
-      mermaid_root.add(parent_path, child_path)
+      target_pathname.each_parent_path(parent_analyze_level, index) do |parent_path, child_path|
+        mermaid_root.add(parent_path, child_path)
+      end
+
+      target_pathname.each_child_path(child_analyze_level, index) do |parent_path, child_path|
+        mermaid_root.add(parent_path, child_path)
+      end
+      nodes += mermaid_root.export_nodes(name_level: name_level, src_path: src_path)
     end
 
-    target_pathname.each_child_path(child_analyze_level, index) do |parent_path, child_path|
-      mermaid_root.add(parent_path, child_path)
-    end
-
-    output = mermaid_root.export(name_level: name_level, src_path: src_path)
+    output = (["flowchart LR"] + nodes.uniq).join("\n")
     output_pathname&.write(output)
     output
   end
@@ -62,12 +66,12 @@ module JsDependency
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
 
     target_pathname = JsDependency::TargetPathname.new(target_path)
-    list = []
+    paths = []
     target_pathname.each_parent_path(parent_analyze_level, index) do |parent_path, _child_path|
-      list << parent_path
+      paths << parent_path
     end
-    output = list.uniq.sort.map do |path|
-      Pathname.new(path).relative_path_from(Pathname.new(src_path).realpath.to_s)
+    output = paths.uniq.sort.map do |path|
+      Pathname.new(path).exist? ? Pathname.new(path).relative_path_from(Pathname.new(src_path).realpath.to_s).to_s : Pathname.new(path).to_s
     end
     output_pathname&.write(output.sort.join("\n"))
     output
@@ -86,12 +90,12 @@ module JsDependency
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
 
     target_pathname = JsDependency::TargetPathname.new(target_path)
-    list = []
+    paths = []
     target_pathname.each_child_path(child_analyze_level, index) do |_parent_path, child_path|
-      list << child_path
+      paths << child_path
     end
-    output = list.uniq.sort.map do |path|
-      Pathname.new(path).relative_path_from(Pathname.new(src_path).realpath.to_s)
+    output = paths.uniq.sort.map do |path|
+      Pathname.new(path).exist? ? Pathname.new(path).relative_path_from(Pathname.new(src_path).realpath.to_s).to_s : Pathname.new(path).to_s
     end
     output_pathname&.write(output.sort.join("\n"))
     output
