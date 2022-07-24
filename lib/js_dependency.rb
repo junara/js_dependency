@@ -49,6 +49,14 @@ module JsDependency
     output
   end
 
+  # @param [String] src_path
+  # @param [String] target_path
+  # @param [String] orientation
+  # @param [Hash, nil] alias_paths
+  # @param [Integer] parent_analyze_level
+  # @param [String, nil] output_path
+  # @param [Array, nil] excludes
+  # @return [Array<Pathname>]
   def self.parents(src_path, target_path, alias_paths: nil, parent_analyze_level: 1, output_path: nil, excludes: nil)
     output_pathname = Pathname.new(output_path) if output_path
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
@@ -65,6 +73,14 @@ module JsDependency
     output
   end
 
+  # @param [String] src_path
+  # @param [String] target_path
+  # @param [String] orientation
+  # @param [Hash, nil] alias_paths
+  # @param [Integer] child_analyze_level
+  # @param [String, nil] output_path
+  # @param [Array, nil] excludes
+  # @return [Array<Pathname>]
   def self.children(src_path, target_path, alias_paths: nil, child_analyze_level: 1, output_path: nil, excludes: nil)
     output_pathname = Pathname.new(output_path) if output_path
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
