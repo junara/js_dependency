@@ -47,9 +47,7 @@ module JsDependency
         import_pathnames = import_pathnames_from(component_pathname, alias_paths)
 
         obj[component_pathname.to_s] = import_pathnames.map(&:to_s)
-        if component_pathname.basename.to_s == "index.js"
-          obj[component_pathname.dirname.to_s] = import_pathnames.map(&:to_s)
-        end
+        obj[component_pathname.dirname.to_s] = import_pathnames.map(&:to_s) if component_pathname.basename.to_s == "index.js"
       end
     end
 
