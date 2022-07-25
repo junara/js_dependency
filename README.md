@@ -61,6 +61,12 @@ js_dependency -s ./src -t ./src/App.vue -o ./mermaid.txt -c 2 -p 2 -n 1
 js_dependency -s ./src -t ./src/App.vue ./src/components/Sub.vue -o ./mermaid.txt -c 2 -p 2 -n 1
 ```
 
+##### Exclude path which iclude exclude words `-e` from output
+
+```shell
+js_dependency -s ./src -t ./src/App.vue -o ./mermaid.txt -c 2 -p 2 -n 1 -e excludeWord1 excludeWord2
+```
+
 #### Export parents components list
 
 ```shell

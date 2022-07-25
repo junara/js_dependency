@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.3.2] - 2022-07-26
+
+- Multiple excludes option for CLI.
+
 ## [0.3.1] - 2022-07-25
 
 - Multiple target paths for JsDependency.export and export_mermaid CLI.
