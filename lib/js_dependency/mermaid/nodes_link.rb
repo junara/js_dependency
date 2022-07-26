@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require_relative "../pathname_utility"
+
 module JsDependency
   module Mermaid
     class NodesLink
@@ -35,7 +37,7 @@ module JsDependency
       # @param [Pathname] pathname
       # @param [Integer] level
       def parse(pathname, level = -1)
-        pathname.each_filename.with_object([]) { |filename, array| array << filename }.reverse[0..level].reverse
+        JsDependency::PathnameUtility.parse(pathname, level)
       end
     end
   end

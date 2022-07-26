@@ -25,5 +25,11 @@ module JsDependency
         Pathname.new(target_path)
       end
     end
+
+    # @param [Pathname] pathname
+    # @param [Integer] level
+    def self.parse(pathname, level = -1)
+      pathname.each_filename.with_object([]) { |filename, array| array << filename }.reverse[0..level].reverse
+    end
   end
 end
