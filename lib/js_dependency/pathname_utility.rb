@@ -31,5 +31,16 @@ module JsDependency
     def self.parse(pathname, level = -1)
       pathname.each_filename.with_object([]) { |filename, array| array << filename }.reverse[0..level].reverse
     end
+
+    def self.relative_path_or_external_path(path, src_path)
+      pathname = Pathname.new(path)
+      src_pathname = Pathname.new(src_path)
+
+      if pathname.exist?
+        pathname.realpath.relative_path_from(src_pathname.realpath.to_s).to_s
+      else
+        pathname.to_s
+      end
+    end
   end
 end
