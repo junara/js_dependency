@@ -28,7 +28,7 @@ module JsDependency
       output_path = options[:output_path] || args["output_path"] || nil
       alias_paths = args["alias_paths"] || nil
       name_level = options[:name_level] || args["name_level"] || 1
-      excludes = if options[:excludes].length.positive?
+      excludes = if options[:excludes]&.length&.positive?
                    options[:excludes]
                  elsif args["excludes"]
                    args["excludes"]
