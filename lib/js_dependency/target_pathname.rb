@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require_relative "pathname_utility"
 module JsDependency
   class TargetPathname
     # @param [String] target_path
@@ -45,7 +46,18 @@ module JsDependency
       end
     end
 
+    def mermaid_style(src_path)
+      src_pathname = Pathname.new(src_path).realpath
+      export_style(parse(@pathname.exist? ? @pathname.relative_path_from(src_pathname) : @pathname).join("_"))
+    end
+
     private
+
+    # @param [String] path
+    # @return [String]
+    def export_style(path)
+      "style #{path} stroke:#{@color_css},stroke-width:#{@font_size_css}"
+    end
 
     # @param [String] target_path
     # @param [Hash] index
@@ -68,6 +80,11 @@ module JsDependency
     def to_target_pathname(target_path)
       JsDependency::PathnameUtility.to_target_pathname(target_path)
     end
+
+    # @param [Pathname] pathname
+    # @param [Integer] level
+    def parse(pathname, level = -1)
+      JsDependency::PathnameUtility.parse(pathname, level)
     end
   end
 end
