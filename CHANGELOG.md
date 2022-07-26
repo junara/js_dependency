@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.3.3] - 2022-07-26
+
+- Add special style to target_paths in mermaid output CLI.
+
 ## [0.3.2] - 2022-07-26
 
 - Multiple excludes option for CLI.
