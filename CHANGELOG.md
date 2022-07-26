@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## [0.3.5] - 2022-07-27
+
+- Export orphan components list.
+- Export left components list.
+
 ## [0.3.4] - 2022-07-26
 
 - Add version CLI command
