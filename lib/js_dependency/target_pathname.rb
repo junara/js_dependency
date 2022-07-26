@@ -62,6 +62,8 @@ module JsDependency
       index[target_path] || []
     end
 
+    # @param [String] target_path
+    # @return [Pathname]
     def to_target_pathname(target_path)
       JsDependency::PathnameUtility.to_target_pathname(target_path)
     end

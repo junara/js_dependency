@@ -6,11 +6,14 @@ module JsDependency
   module SourceAnalysis
     # Components is not depended on.
     class Orphan
+      # @param [Hash] index
+      # @param [String] src_path
       def initialize(index, src_path)
         @index = index
         @src_path = src_path
       end
 
+      # @return [Array]
       def call
         orphan_index = @index.filter do |target_path, _child_paths|
           orphan?(target_path)
@@ -24,6 +27,8 @@ module JsDependency
 
       private
 
+      # @param [String] target_path
+      # @return [TrueClass, FalseClass]
       def orphan?(target_path)
         target_pathname = JsDependency::TargetPathname.new(target_path)
         paths = []
@@ -33,6 +38,9 @@ module JsDependency
         paths.size.zero?
       end
 
+      # @param [String] path
+      # @param [String] src_path
+      # @return [String]
       def relative_path_or_external_path(path, src_path)
         JsDependency::PathnameUtility.relative_path_or_external_path(path, src_path)
       end

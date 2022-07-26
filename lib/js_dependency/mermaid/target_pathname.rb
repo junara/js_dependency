@@ -13,6 +13,8 @@ module JsDependency
         @font_size_css = "4px"
       end
 
+      # @param [String] src_path
+      # @return [String]
       def mermaid_style(src_path)
         src_pathname = Pathname.new(src_path).realpath
         export_style(parse(@pathname.exist? ? @pathname.relative_path_from(src_pathname) : @pathname).join("_"))
@@ -32,6 +34,8 @@ module JsDependency
         JsDependency::PathnameUtility.parse(pathname, level)
       end
 
+      # @param [String] target_path
+      # @return [Pathname]
       def to_target_pathname(target_path)
         JsDependency::PathnameUtility.to_target_pathname(target_path)
       end

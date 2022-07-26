@@ -5,6 +5,8 @@ module JsDependency
   module SourceAnalysis
     # Components have no dependencies.
     class Leave
+      # @param [Hash] index
+      # @param [String] src_path
       def initialize(index, src_path)
         @index = index
         @src_path = src_path
@@ -24,10 +26,15 @@ module JsDependency
 
       private
 
+      # @param [Array<String>] paths
+      # @return [TrueClass, FalseClass]
       def blank?(paths)
         paths.nil? || paths.empty?
       end
 
+      # @param [String] path
+      # @param [String] src_path
+      # @return [String]
       def relative_path_or_external_path(path, src_path)
         JsDependency::PathnameUtility.relative_path_or_external_path(path, src_path)
       end

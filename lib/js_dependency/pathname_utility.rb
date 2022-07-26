@@ -28,10 +28,14 @@ module JsDependency
 
     # @param [Pathname] pathname
     # @param [Integer] level
+    # @return [Array]
     def self.parse(pathname, level = -1)
       pathname.each_filename.with_object([]) { |filename, array| array << filename }.reverse[0..level].reverse
     end
 
+    # @param [String] path
+    # @param [String] src_path
+    # @return [String]
     def self.relative_path_or_external_path(path, src_path)
       pathname = Pathname.new(path)
       src_pathname = Pathname.new(src_path)
