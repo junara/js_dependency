@@ -7,6 +7,7 @@ require_relative "js_dependency/cli"
 require_relative "js_dependency/target_pathname"
 require_relative "js_dependency/mermaid/target_pathname"
 require_relative "js_dependency/source_analysis/leave"
+require_relative "js_dependency/source_analysis/orphan"
 require_relative "js_dependency/pathname_utility"
 require "pathname"
 
@@ -27,6 +28,11 @@ module JsDependency
   def self.leave(src_path, alias_paths: nil, excludes: nil)
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
     JsDependency::SourceAnalysis::Leave.new(index, src_path).call
+  end
+
+  def self.orphan(src_path, alias_paths: nil, excludes: nil)
+    index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
+    JsDependency::SourceAnalysis::Orphan.new(index, src_path).call
   end
 
   # @param [String] src_path
