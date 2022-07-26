@@ -4,7 +4,7 @@ require_relative "js_dependency/version"
 require_relative "js_dependency/index_creator"
 require_relative "js_dependency/mermaid/root"
 require_relative "js_dependency/cli"
-require_relative "js_dependency/target_pathname"
+require_relative "js_dependency/mermaid/target_pathname"
 require "pathname"
 
 module JsDependency
@@ -35,7 +35,7 @@ module JsDependency
     nodes = []
     styles = []
     target_paths.each do |target_path|
-      target_pathname = JsDependency::TargetPathname.new(target_path)
+      target_pathname = JsDependency::Mermaid::TargetPathname.new(target_path)
       styles += [target_pathname.mermaid_style(src_path)]
       mermaid_root = JsDependency::Mermaid::Root.new(orientation)
 
@@ -66,7 +66,7 @@ module JsDependency
     output_pathname = Pathname.new(output_path) if output_path
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
 
-    target_pathname = JsDependency::TargetPathname.new(target_path)
+    target_pathname = JsDependency::Mermaid::TargetPathname.new(target_path)
     paths = []
     target_pathname.each_parent_path(parent_analyze_level, index) do |parent_path, _child_path|
       paths << parent_path
@@ -90,7 +90,7 @@ module JsDependency
     output_pathname = Pathname.new(output_path) if output_path
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
 
-    target_pathname = JsDependency::TargetPathname.new(target_path)
+    target_pathname = JsDependency::Mermaid::TargetPathname.new(target_path)
     paths = []
     target_pathname.each_child_path(child_analyze_level, index) do |_parent_path, child_path|
       paths << child_path
