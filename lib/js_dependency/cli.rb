@@ -65,7 +65,7 @@ module JsDependency
       parent_analyze_level = options[:parent_analyze_level] || args["parent_analyze_level"] || 1
       output_path = options[:output_path] || args["output_path"] || nil
       alias_paths = args["alias_paths"] || nil
-      excludes = if options[:excludes].length.positive?
+      excludes = if options[:excludes]&.length&.positive?
                    options[:excludes]
                  elsif args["excludes"]
                    args["excludes"]
@@ -100,7 +100,7 @@ module JsDependency
       child_analyze_level = options[:child_analyze_level] || args["child_analyze_level"] || 1
       output_path = options[:output_path] || args["output_path"] || nil
       alias_paths = args["alias_paths"] || nil
-      excludes = if options[:excludes].length.positive?
+      excludes = if options[:excludes]&.length&.positive?
                    options[:excludes]
                  elsif args["excludes"]
                    args["excludes"]
