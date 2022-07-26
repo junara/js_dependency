@@ -13,7 +13,7 @@ module JsDependency
         @src_path = src_path
       end
 
-      # @return [Array]
+      # @return [Array<String>]
       def call
         orphan_index = @index.filter do |target_path, _child_paths|
           orphan?(target_path)

@@ -24,18 +24,17 @@ module JsDependency
 
   # @param [String] src_path
   # @param [Hash, nil] alias_paths
-  # @param [Array, nil] excludes
-  def self.leave(src_path, alias_paths: nil, excludes: nil)
-    index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
+  # @return [Array<String>]
+  def self.leave(src_path, alias_paths: nil)
+    index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths)
     JsDependency::SourceAnalysis::Leave.new(index, src_path).call
   end
 
   # @param [String] src_path
   # @param [Hash, nil] alias_paths
-  # @param [Array, nil] excludes
-  # @return [Array]
-  def self.orphan(src_path, alias_paths: nil, excludes: nil)
-    index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
+  # @return [Array<String>]
+  def self.orphan(src_path, alias_paths: nil)
+    index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths)
     JsDependency::SourceAnalysis::Orphan.new(index, src_path).call
   end
 
