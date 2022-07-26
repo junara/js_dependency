@@ -19,7 +19,7 @@ If bundler is not being used to manage dependencies, install the gem by executin
 ## Usage
 ### By Command Line
 
-#### Version
+#### Show version
 
 ```shell
 js_dependency version
@@ -88,6 +88,21 @@ js_dependency parents -s ./src -t ./src/App.vue -o ./parents.txt -p 2
 js_dependency childrent -s ./src -t ./src/App.vue -o ./children.txt -c 2
 ```
 
+#### Export orphan components list
+
+Components that are not used in other components.
+
+```shell
+js_dependency orphan -s ./src
+```
+
+#### Export left components list
+
+Components that do not import other components.
+
+```shell
+js_dependency leave -s ./src
+```
 
 ### By ruby code
 If your javascript code is in `./src` and `./src/App.vue` is in the directory, you can analyze `./src/App.vue` dependency like this:
