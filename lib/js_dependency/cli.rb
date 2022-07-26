@@ -118,6 +118,25 @@ module JsDependency
       puts str
     end
 
+    desc "orphan", "export components than is not depended by others"
+    option :src_path, type: :string, aliases: "-s", desc: "Root folder."
+
+    def orphan
+      pathname = Pathname.new(".js_dependency.yml")
+      args = {}
+      args = YAML.safe_load(pathname.read) if pathname.exist?
+
+      src_path = options[:src_path] || args["src_path"]
+      alias_paths = args["alias_paths"] || nil
+
+      str = JsDependency.orphan(
+        src_path,
+        alias_paths: alias_paths
+      ).join("\n")
+
+      puts str
+    end
+
     desc "version", "show version"
     def version
       puts JsDependency::VERSION
