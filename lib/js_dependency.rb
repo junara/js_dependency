@@ -33,9 +33,10 @@ module JsDependency
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths, excludes: excludes)
 
     nodes = []
+    styles = []
     target_paths.each do |target_path|
       target_pathname = JsDependency::TargetPathname.new(target_path)
-
+      styles += [target_pathname.mermaid_style(src_path)]
       mermaid_root = JsDependency::Mermaid::Root.new(orientation)
 
       target_pathname.each_parent_path(parent_analyze_level, index) do |parent_path, child_path|
@@ -48,7 +49,7 @@ module JsDependency
       nodes += mermaid_root.export_nodes(name_level: name_level, src_path: src_path)
     end
 
-    output = (["flowchart LR"] + nodes.uniq).join("\n")
+    output = (["flowchart LR"] + nodes.uniq + styles.uniq).join("\n")
     output_pathname&.write(output)
     output
   end
