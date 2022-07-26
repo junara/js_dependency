@@ -32,7 +32,7 @@ module JsDependency
 
       # @param [Integer] name_level
       # @param [nil, String] src_path
-      # @return [Array]
+      # @return [Array<String>]
       def export_nodes(name_level: 1, src_path: nil)
         nodes_links = if src_path
                         src_pathname = Pathname.new(src_path).realpath
