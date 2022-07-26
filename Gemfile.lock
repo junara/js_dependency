@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    js_dependency (0.3.3)
+    js_dependency (0.3.3.1)
       pathname
       thor
       yaml
