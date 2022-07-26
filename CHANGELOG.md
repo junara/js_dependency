@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## [0.3.4] - 2022-07-26
+
+- Add version CLI command
+- Bug fix excludes option in parents and children commands.
+
 ## [0.3.3] - 2022-07-26
 
 - Add special style to target_paths in mermaid output CLI.
