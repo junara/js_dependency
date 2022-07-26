@@ -3,6 +3,8 @@
 require_relative "pathname_utility"
 module JsDependency
   class TargetPathname
+    attr_accessor :color_css, :font_size_css
+
     # @param [String] target_path
     def initialize(target_path)
       @pathname = if Pathname.new(target_path).relative? && Pathname.new(target_path).exist?
@@ -10,6 +12,8 @@ module JsDependency
                   else
                     Pathname.new(target_path)
                   end
+      @color_css = "#f9f"
+      @font_size_css = "4px"
     end
 
     # @param [Integer] analyze_level
