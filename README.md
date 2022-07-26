@@ -19,6 +19,15 @@ If bundler is not being used to manage dependencies, install the gem by executin
 ## Usage
 ### By Command Line
 
+#### Version
+
+```shell
+js_dependency version
+# => "X.X.X"
+```
+
+#### yaml configuration file
+
 Configuration file is `./.js_dependency.yml`. This file includes parameters for the analysis.
 
 ```yaml

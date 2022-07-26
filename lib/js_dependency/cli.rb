@@ -117,5 +117,10 @@ module JsDependency
 
       puts str
     end
+
+    desc "version", "show version"
+    def version
+      puts JsDependency::VERSION
+    end
   end
 end
