@@ -2,6 +2,7 @@
 
 require_relative "extractor/extract_script_tag"
 require_relative "extractor/extract_import_path"
+require_relative "extractor/extract_src_path"
 require_relative "replace_path_alias"
 require_relative "pathname_utility"
 
@@ -45,6 +46,7 @@ module JsDependency
 
       src_pathname.glob(pattern).each_with_object({}) do |component_pathname, obj|
         import_pathnames = import_pathnames_from(component_pathname, alias_paths)
+        import_pathnames += src_javascript_pathnames_from(component_pathname, alias_paths)
 
         obj[component_pathname.to_s] = import_pathnames.map(&:to_s)
         if component_pathname.basename.to_s == "index.js"
@@ -62,6 +64,17 @@ module JsDependency
       script_str = extract_script_string(component_pathname)
       JsDependency::Extractor::ExtractImportPath.call(script_str).map do |import_path|
         standardize_path(import_path, alias_paths, component_dirname)
+      end
+    end
+
+    # @param [Pathname] component_pathname
+    # @param [Array<String>] alias_paths
+    # @return [Array<Pathname>]
+    def src_javascript_pathnames_from(component_pathname, alias_paths)
+      component_dirname = component_pathname.dirname
+      str = component_pathname.read
+      JsDependency::Extractor::ExtractSrcPath.call(str).map do |src_path|
+        standardize_path(src_path, alias_paths, component_dirname)
       end
     end
 
