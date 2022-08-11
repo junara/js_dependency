@@ -10,20 +10,23 @@ module JsDependency
         @args = if pathname.nil?
                   {}
                 else
-                  symbolize_keys(YAML.safe_load(config_pathname.read))
+                  symbolize_keys(YAML.safe_load(pathname.read))
                 end
       end
 
       private
 
+      # @return [Pathname, nil]
       def config_pathname
-        if Pathname.new(".js_dependency.yml").exist?
-          Pathname.new(".js_dependency.yml")
-        elsif Pathname.new(".js_dependency.yaml").exist?
-          Pathname.new(".js_dependency.yaml")
+        pathname = nil
+        %w[.js_dependency.yml .js_dependency.yaml].each do |path|
+          pathname = Pathname.new(path) if Pathname.new(path).exist?
         end
+        pathname
       end
 
+      # @param [Hash] hash
+      # @return [Hash]
       def symbolize_keys(hash)
         hash.transform_keys(&:to_sym)
       end
