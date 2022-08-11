@@ -35,6 +35,9 @@ module JsDependency
         target_pathname.each_parent_path(1, @index) do |parent_path, _child_path|
           paths << parent_path
         end
+
+        paths += dir_parent_paths(target_path) if target_path.include?("index.js")
+
         paths.size.zero?
       end
 
@@ -43,6 +46,18 @@ module JsDependency
       # @return [String]
       def relative_path_or_external_path(path, src_path)
         JsDependency::PathnameUtility.relative_path_or_external_path(path, src_path)
+      end
+
+      # Directory parent paths.
+      # @param [String] target_path
+      # @return [Array<String>]
+      def dir_parent_paths(target_path)
+        paths = []
+        target_pathname_dir = JsDependency::TargetPathname.new(Pathname.new(target_path).dirname.to_s)
+        target_pathname_dir.each_parent_path(1, @index) do |parent_path, _child_path|
+          paths << parent_path
+        end
+        paths
       end
     end
   end
