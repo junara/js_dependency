@@ -17,21 +17,19 @@ module JsDependency
     method_option :excludes, type: :array, aliases: "-e", desc: "Exclude the word that is included in the path"
 
     def export_mermaid
-      pathname = Pathname.new(".js_dependency.yml")
-      args = {}
-      args = YAML.safe_load(pathname.read) if pathname.exist?
+      args = JsDependency::Yaml.new.args
 
-      src_path = options[:src_path] || args["src_path"]
-      target_paths = options[:target_paths] || (args["target_path"].is_a?(String) ? [args["target_path"]] : args["target_path"])
-      child_analyze_level = options[:child_analyze_level] || args["child_analyze_level"] || 2
-      parent_analyze_level = options[:parent_analyze_level] || args["parent_analyze_level"] || 2
-      output_path = options[:output_path] || args["output_path"] || nil
-      alias_paths = args["alias_paths"] || nil
-      name_level = options[:name_level] || args["name_level"] || 1
+      src_path = options[:src_path] || args[:src_path]
+      target_paths = options[:target_paths] || (args[:target_path].is_a?(String) ? [args[:target_path]] : args[:target_path])
+      child_analyze_level = options[:child_analyze_level] || args[:child_analyze_level] || 2
+      parent_analyze_level = options[:parent_analyze_level] || args[:parent_analyze_level] || 2
+      output_path = options[:output_path] || args[:output_path] || nil
+      alias_paths = args[:alias_paths] || nil
+      name_level = options[:name_level] || args[:name_level] || 1
       excludes = if options[:excludes]&.length&.positive?
                    options[:excludes]
-                 elsif args["excludes"]
-                   args["excludes"]
+                 elsif args[:excludes]
+                   args[:excludes]
                  end
 
       str = JsDependency.export_mermaid(
@@ -159,6 +157,12 @@ module JsDependency
     desc "version", "show version"
     def version
       puts JsDependency::VERSION
+    end
+
+    private
+
+    def hoge
+      pp "hoge"
     end
   end
 end
