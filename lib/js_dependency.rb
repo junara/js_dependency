@@ -10,6 +10,7 @@ require_relative "js_dependency/source_analysis/leave"
 require_relative "js_dependency/source_analysis/orphan"
 require_relative "js_dependency/pathname_utility"
 require_relative "js_dependency/cli_utils/yaml"
+require_relative "js_dependency/cli_utils/config"
 require "pathname"
 
 module JsDependency

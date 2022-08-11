@@ -18,7 +18,7 @@ module JsDependency
 
     def export_mermaid
       args = JsDependency::CliUtils::Yaml.new.args
-      config = override_options(options, args)
+      config = JsDependency::CliUtils::Config.new(options, args)
       str = JsDependency.export_mermaid(
         config.src_path,
         config.target_paths,
@@ -42,7 +42,7 @@ module JsDependency
 
     def parents
       args = JsDependency::CliUtils::Yaml.new.args
-      config = override_options(options, args)
+      config = JsDependency::CliUtils::Config.new(options, args)
 
       str = JsDependency.parents(
         config.src_path,
@@ -65,7 +65,7 @@ module JsDependency
 
     def children
       args = JsDependency::CliUtils::Yaml.new.args
-      config = override_options(options, args)
+      config = JsDependency::CliUtils::Config.new(options, args)
 
       str = JsDependency.children(
         config.src_path,
@@ -84,7 +84,7 @@ module JsDependency
 
     def orphan
       args = JsDependency::CliUtils::Yaml.new.args
-      config = override_options(options, args)
+      config = JsDependency::CliUtils::Config.new(options, args)
 
       str = JsDependency.orphan(
         config.src_path,
@@ -99,7 +99,7 @@ module JsDependency
 
     def leave
       args = JsDependency::CliUtils::Yaml.new.args
-      config = override_options(options, args)
+      config = JsDependency::CliUtils::Config.new(options, args)
 
       str = JsDependency.leave(
         config.src_path,
@@ -112,35 +112,6 @@ module JsDependency
     desc "version", "show version"
     def version
       puts JsDependency::VERSION
-    end
-
-    private
-
-    def override_options(options, args)
-      src_path = options[:src_path] || args[:src_path]
-      target_paths = options[:target_paths] || (args[:target_path].is_a?(String) ? [args[:target_path]] : args[:target_path])
-      target_path = options[:target_path] || args["target_path"]
-      child_analyze_level = options[:child_analyze_level] || args[:child_analyze_level] || 2
-      parent_analyze_level = options[:parent_analyze_level] || args[:parent_analyze_level] || 2
-      output_path = options[:output_path] || args[:output_path] || nil
-      alias_paths = args[:alias_paths] || nil
-      name_level = options[:name_level] || args[:name_level] || 1
-      excludes = if options[:excludes]&.length&.positive?
-                   options[:excludes]
-                 elsif args[:excludes]
-                   args[:excludes]
-                 end
-      Struct.new(:src_path, :target_paths, :target_path, :child_analyze_level, :parent_analyze_level, :output_path, :alias_paths, :name_level, :excludes, keyword_init: true).new(
-        src_path: src_path,
-        target_paths: target_paths,
-        target_path: target_path,
-        child_analyze_level: child_analyze_level,
-        parent_analyze_level: parent_analyze_level,
-        output_path: output_path,
-        alias_paths: alias_paths,
-        name_level: name_level,
-        excludes: excludes
-      )
     end
   end
 end
