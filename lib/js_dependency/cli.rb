@@ -17,7 +17,7 @@ module JsDependency
     method_option :excludes, type: :array, aliases: "-e", desc: "Exclude the word that is included in the path"
 
     def export_mermaid
-      args = JsDependency::Yaml.new.args
+      args = JsDependency::CliUtils::Yaml.new.args
       config = override_options(options, args)
       str = JsDependency.export_mermaid(
         config.src_path,
@@ -41,7 +41,7 @@ module JsDependency
     method_option :excludes, type: :array, aliases: "-e", desc: "Exclude the word that is included in the path"
 
     def parents
-      args = JsDependency::Yaml.new.args
+      args = JsDependency::CliUtils::Yaml.new.args
       config = override_options(options, args)
 
       str = JsDependency.parents(
@@ -64,7 +64,7 @@ module JsDependency
     method_option :excludes, type: :array, aliases: "-e", desc: "Exclude the word that is included in the path"
 
     def children
-      args = JsDependency::Yaml.new.args
+      args = JsDependency::CliUtils::Yaml.new.args
       config = override_options(options, args)
 
       str = JsDependency.children(
@@ -83,7 +83,7 @@ module JsDependency
     method_option :src_path, type: :string, aliases: "-s", desc: "Root folder."
 
     def orphan
-      args = JsDependency::Yaml.new.args
+      args = JsDependency::CliUtils::Yaml.new.args
       config = override_options(options, args)
 
       str = JsDependency.orphan(
@@ -98,7 +98,7 @@ module JsDependency
     method_option :src_path, type: :string, aliases: "-s", desc: "Root folder."
 
     def leave
-      args = JsDependency::Yaml.new.args
+      args = JsDependency::CliUtils::Yaml.new.args
       config = override_options(options, args)
 
       str = JsDependency.leave(
