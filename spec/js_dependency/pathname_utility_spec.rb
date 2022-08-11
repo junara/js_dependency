@@ -78,4 +78,21 @@ RSpec.describe JsDependency::PathnameUtility do
       end
     end
   end
+
+  describe "#parse" do
+    where(:path, :level, :expected) do
+      [
+        ["a/b/c/d/e", -1, %w[a b c d e]],
+        ["a/b/c/d/e", 0, %w[e]],
+        ["a/b/c/d/e", 1, %w[d e]],
+        ["a/b/c/d/e", 2, %w[c d e]]
+      ]
+    end
+
+    with_them do
+      it "returns an array of name" do
+        expect(described_class.parse(Pathname.new(path), level)).to eq(expected)
+      end
+    end
+  end
 end
