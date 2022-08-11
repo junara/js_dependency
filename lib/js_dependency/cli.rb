@@ -19,7 +19,7 @@ module JsDependency
     def export_mermaid
       args = JsDependency::CliUtils::Yaml.new.args
       config = JsDependency::CliUtils::Config.new(options, args)
-      str = JsDependency.export_mermaid(
+      puts JsDependency.export_mermaid(
         config.src_path,
         config.target_paths,
         child_analyze_level: config.child_analyze_level,
@@ -29,8 +29,6 @@ module JsDependency
         name_level: config.name_level,
         excludes: config.excludes
       )
-
-      puts str
     end
 
     desc "parents", "export parents list"
@@ -43,8 +41,7 @@ module JsDependency
     def parents
       args = JsDependency::CliUtils::Yaml.new.args
       config = JsDependency::CliUtils::Config.new(options, args)
-
-      str = JsDependency.parents(
+      puts JsDependency.parents(
         config.src_path,
         config.target_path,
         parent_analyze_level: config.parent_analyze_level,
@@ -52,8 +49,6 @@ module JsDependency
         alias_paths: config.alias_paths,
         excludes: config.excludes
       ).join("\n")
-
-      puts str
     end
 
     desc "children", "export children list"
@@ -66,8 +61,7 @@ module JsDependency
     def children
       args = JsDependency::CliUtils::Yaml.new.args
       config = JsDependency::CliUtils::Config.new(options, args)
-
-      str = JsDependency.children(
+      puts JsDependency.children(
         config.src_path,
         config.target_path,
         child_analyze_level: config.child_analyze_level,
@@ -75,8 +69,6 @@ module JsDependency
         alias_paths: config.alias_paths,
         excludes: config.excludes
       ).join("\n")
-
-      puts str
     end
 
     desc "orphan", "export components than is not depended by others"
@@ -85,13 +77,10 @@ module JsDependency
     def orphan
       args = JsDependency::CliUtils::Yaml.new.args
       config = JsDependency::CliUtils::Config.new(options, args)
-
-      str = JsDependency.orphan(
+      puts JsDependency.orphan(
         config.src_path,
         alias_paths: config.alias_paths
       ).join("\n")
-
-      puts str
     end
 
     desc "leave", "export components than is not depended by others"
@@ -100,13 +89,10 @@ module JsDependency
     def leave
       args = JsDependency::CliUtils::Yaml.new.args
       config = JsDependency::CliUtils::Config.new(options, args)
-
-      str = JsDependency.leave(
+      puts JsDependency.leave(
         config.src_path,
         alias_paths: config.alias_paths
       ).join("\n")
-
-      puts str
     end
 
     desc "version", "show version"
