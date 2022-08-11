@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.3.6] - 2022-08-11
+
+- Add src path in script tag for create index.
+
 ## [0.3.5] - 2022-07-27
 
 - Export orphan components list.

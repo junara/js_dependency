@@ -6,6 +6,8 @@ Welcome to your new gem! In this directory, you'll find the files you need to be
 
 Analyze import dependency of JavaScript code and export mermaid format.
 
+"import dependency" is analyzed from import statement of JavaScript code and src path that is added to script tag.
+
 ## Installation
 
 Install the gem and add to the application's Gemfile by executing:
