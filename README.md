@@ -56,6 +56,7 @@ parent_analyze_level -> -p
 name_level -> -n
 output_path -> -o
 exclude -> -e
+alias_paths -> -a
 ```
 
 #### Export Mermaid Format
@@ -63,31 +64,31 @@ exclude -> -e
 ##### Single target path
 
 ```shell
-js_dependency -s ./src -t ./src/App.vue -o ./mermaid.txt -c 2 -p 2 -n 1
+js_dependency -s ./src -t ./src/App.vue -o ./mermaid.txt -c 2 -p 2 -n 1 -a @:./pages
 ```
 
 ##### Multiple target paths
 
 ```shell
-js_dependency -s ./src -t ./src/App.vue ./src/components/Sub.vue -o ./mermaid.txt -c 2 -p 2 -n 1
+js_dependency -s ./src -t ./src/App.vue ./src/components/Sub.vue -o ./mermaid.txt -c 2 -p 2 -n 1 -a @:./pages
 ```
 
-##### Exclude path which iclude exclude words `-e` from output
+##### Exclude path which include exclude words `-e` from output
 
 ```shell
-js_dependency -s ./src -t ./src/App.vue -o ./mermaid.txt -c 2 -p 2 -n 1 -e excludeWord1 excludeWord2
+js_dependency -s ./src -t ./src/App.vue -o ./mermaid.txt -c 2 -p 2 -n 1 -e excludeWord1 excludeWord2 -a @:./pages
 ```
 
 #### Export parents components list
 
 ```shell
-js_dependency parents -s ./src -t ./src/App.vue -o ./parents.txt -p 2
+js_dependency parents -s ./src -t ./src/App.vue -o ./parents.txt -p 2 -a @:./pages
 ```
 
 #### Export children components list
 
 ```shell
-js_dependency childrent -s ./src -t ./src/App.vue -o ./children.txt -c 2
+js_dependency childrent -s ./src -t ./src/App.vue -o ./children.txt -c 2 -a @:./pages
 ```
 
 #### Export orphan components list
@@ -95,7 +96,7 @@ js_dependency childrent -s ./src -t ./src/App.vue -o ./children.txt -c 2
 Components that are not used in other components.
 
 ```shell
-js_dependency orphan -s ./src
+js_dependency orphan -s ./src -a @:./pages
 ```
 
 #### Export left components list
@@ -103,7 +104,7 @@ js_dependency orphan -s ./src
 Components that do not import other components.
 
 ```shell
-js_dependency leave -s ./src
+js_dependency leave -s ./src -a @:./pages
 ```
 
 ### By ruby code
