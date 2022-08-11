@@ -100,7 +100,8 @@ RSpec.describe JsDependency::PathnameUtility do
     where(:case_name, :path, :src_path, :expected) do
       [
         ["external module", "/path/to/module/lib.js", "spec/fixtures/src", "/path/to/module/lib.js"],
-        ["existed file", "spec/fixtures/pathname_utility/existed_file.js", "spec/fixtures/src", "../pathname_utility/existed_file.js"]
+        ["existed file", "spec/fixtures/pathname_utility/existed_file.js", "spec/fixtures/src",
+         "../pathname_utility/existed_file.js"]
       ]
     end
 
