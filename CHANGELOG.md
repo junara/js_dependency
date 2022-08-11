@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.3.7] - 2022-08-11
+
+- If target is index.js, orphan include in analysis.
+
 ## [0.3.6] - 2022-08-11
 
 - Add src path in script tag for create index.
