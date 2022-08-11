@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require_relative "extract_script_tag"
-require_relative "extract_import_path"
+require_relative "extractor/extract_script_tag"
+require_relative "extractor/extract_import_path"
 require_relative "replace_path_alias"
 require_relative "pathname_utility"
 
@@ -60,7 +60,7 @@ module JsDependency
     def import_pathnames_from(component_pathname, alias_paths)
       component_dirname = component_pathname.dirname
       script_str = extract_script_string(component_pathname)
-      JsDependency::ExtractImportPath.call(script_str).map do |import_path|
+      JsDependency::Extractor::ExtractImportPath.call(script_str).map do |import_path|
         standardize_path(import_path, alias_paths, component_dirname)
       end
     end
@@ -91,7 +91,7 @@ module JsDependency
       extname = pathname.extname
       return str unless extname == ".vue"
 
-      JsDependency::ExtractScriptTag.call(str)
+      JsDependency::Extractor::ExtractScriptTag.call(str)
     end
 
     # @param [String] path

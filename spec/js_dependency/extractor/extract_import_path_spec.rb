@@ -2,7 +2,7 @@
 
 require "rspec"
 
-RSpec.describe JsDependency::ExtractImportPath do
+RSpec.describe JsDependency::Extractor::ExtractImportPath do
   describe "self.call" do
     context "when double quote" do
       where(:str, :expected) do

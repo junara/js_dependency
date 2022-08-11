@@ -2,7 +2,7 @@
 
 require "rspec"
 
-RSpec.describe JsDependency::ExtractScriptTag do
+RSpec.describe JsDependency::Extractor::ExtractScriptTag do
   describe "self.call" do
     context "when the input has script tag" do
       # rubocop:disable RSpec/ExampleLength
