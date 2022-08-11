@@ -95,4 +95,19 @@ RSpec.describe JsDependency::PathnameUtility do
       end
     end
   end
+
+  describe "#relative_path_or_external_path" do
+    where(:case_name, :path, :src_path, :expected) do
+      [
+        ["external module", "/path/to/module/lib.js", "spec/fixtures/src", "/path/to/module/lib.js"],
+        ["existed file", "spec/fixtures/pathname_utility/existed_file.js", "spec/fixtures/src", "../pathname_utility/existed_file.js"]
+      ]
+    end
+
+    with_them do
+      it "returns an array of name" do
+        expect(described_class.relative_path_or_external_path(path, src_path)).to eq(expected)
+      end
+    end
+  end
 end
