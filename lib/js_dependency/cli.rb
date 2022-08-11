@@ -41,28 +41,16 @@ module JsDependency
     method_option :excludes, type: :array, aliases: "-e", desc: "Exclude the word that is included in the path"
 
     def parents
-      pathname = Pathname.new(".js_dependency.yml")
-      args = {}
-      args = YAML.safe_load(pathname.read) if pathname.exist?
-
-      src_path = options[:src_path] || args["src_path"]
-      target_path = options[:target_path] || args["target_path"]
-      parent_analyze_level = options[:parent_analyze_level] || args["parent_analyze_level"] || 1
-      output_path = options[:output_path] || args["output_path"] || nil
-      alias_paths = args["alias_paths"] || nil
-      excludes = if options[:excludes]&.length&.positive?
-                   options[:excludes]
-                 elsif args["excludes"]
-                   args["excludes"]
-                 end
+      args = JsDependency::Yaml.new.args
+      config = override_options(options, args)
 
       str = JsDependency.parents(
-        src_path,
-        target_path,
-        parent_analyze_level: parent_analyze_level,
-        output_path: output_path,
-        alias_paths: alias_paths,
-        excludes: excludes
+        config.src_path,
+        config.target_path,
+        parent_analyze_level: config.parent_analyze_level,
+        output_path: config.output_path,
+        alias_paths: config.alias_paths,
+        excludes: config.excludes
       ).join("\n")
 
       puts str
@@ -76,28 +64,16 @@ module JsDependency
     method_option :excludes, type: :array, aliases: "-e", desc: "Exclude the word that is included in the path"
 
     def children
-      pathname = Pathname.new(".js_dependency.yml")
-      args = {}
-      args = YAML.safe_load(pathname.read) if pathname.exist?
-
-      src_path = options[:src_path] || args["src_path"]
-      target_path = options[:target_path] || args["target_path"]
-      child_analyze_level = options[:child_analyze_level] || args["child_analyze_level"] || 1
-      output_path = options[:output_path] || args["output_path"] || nil
-      alias_paths = args["alias_paths"] || nil
-      excludes = if options[:excludes]&.length&.positive?
-                   options[:excludes]
-                 elsif args["excludes"]
-                   args["excludes"]
-                 end
+      args = JsDependency::Yaml.new.args
+      config = override_options(options, args)
 
       str = JsDependency.children(
-        src_path,
-        target_path,
-        child_analyze_level: child_analyze_level,
-        output_path: output_path,
-        alias_paths: alias_paths,
-        excludes: excludes
+        config.src_path,
+        config.target_path,
+        child_analyze_level: config.child_analyze_level,
+        output_path: config.output_path,
+        alias_paths: config.alias_paths,
+        excludes: config.excludes
       ).join("\n")
 
       puts str
@@ -107,16 +83,12 @@ module JsDependency
     method_option :src_path, type: :string, aliases: "-s", desc: "Root folder."
 
     def orphan
-      pathname = Pathname.new(".js_dependency.yml")
-      args = {}
-      args = YAML.safe_load(pathname.read) if pathname.exist?
-
-      src_path = options[:src_path] || args["src_path"]
-      alias_paths = args["alias_paths"] || nil
+      args = JsDependency::Yaml.new.args
+      config = override_options(options, args)
 
       str = JsDependency.orphan(
-        src_path,
-        alias_paths: alias_paths
+        config.src_path,
+        alias_paths: config.alias_paths
       ).join("\n")
 
       puts str
@@ -126,16 +98,12 @@ module JsDependency
     method_option :src_path, type: :string, aliases: "-s", desc: "Root folder."
 
     def leave
-      pathname = Pathname.new(".js_dependency.yml")
-      args = {}
-      args = YAML.safe_load(pathname.read) if pathname.exist?
-
-      src_path = options[:src_path] || args["src_path"]
-      alias_paths = args["alias_paths"] || nil
+      args = JsDependency::Yaml.new.args
+      config = override_options(options, args)
 
       str = JsDependency.leave(
-        src_path,
-        alias_paths: alias_paths
+        config.src_path,
+        alias_paths: config.alias_paths
       ).join("\n")
 
       puts str
@@ -151,6 +119,7 @@ module JsDependency
     def override_options(options, args)
       src_path = options[:src_path] || args[:src_path]
       target_paths = options[:target_paths] || (args[:target_path].is_a?(String) ? [args[:target_path]] : args[:target_path])
+      target_path = options[:target_path] || args["target_path"]
       child_analyze_level = options[:child_analyze_level] || args[:child_analyze_level] || 2
       parent_analyze_level = options[:parent_analyze_level] || args[:parent_analyze_level] || 2
       output_path = options[:output_path] || args[:output_path] || nil
@@ -161,9 +130,10 @@ module JsDependency
                  elsif args[:excludes]
                    args[:excludes]
                  end
-      Struct.new(:src_path, :target_paths, :child_analyze_level, :parent_analyze_level, :output_path, :alias_paths, :name_level, :excludes, keyword_init: true).new(
+      Struct.new(:src_path, :target_paths, :target_path, :child_analyze_level, :parent_analyze_level, :output_path, :alias_paths, :name_level, :excludes, keyword_init: true).new(
         src_path: src_path,
         target_paths: target_paths,
+        target_path: target_path,
         child_analyze_level: child_analyze_level,
         parent_analyze_level: parent_analyze_level,
         output_path: output_path,
