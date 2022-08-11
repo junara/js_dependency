@@ -52,4 +52,30 @@ RSpec.describe JsDependency::PathnameUtility do
       end
     end
   end
+
+  describe "#to_target_pathname" do
+    context "when existed relative path" do
+      let(:target_path) { "spec/fixtures/src" }
+
+      it "return realpath pathname" do
+        expect(described_class.to_target_pathname(target_path)).to eq(Pathname.new(target_path).realpath)
+      end
+    end
+
+    context "when existed absolute path" do
+      let(:target_path) { Pathname.new("spec/fixtures/src").realpath.to_s }
+
+      it "return realpath pathname" do
+        expect(described_class.to_target_pathname(target_path)).to eq(Pathname.new(target_path).realpath)
+      end
+    end
+
+    context "when not existed absolute path" do
+      let(:target_path) { "spec/fixtures/xxx_src" }
+
+      it "return realpath pathname" do
+        expect(described_class.to_target_pathname(target_path)).to eq(Pathname.new(target_path))
+      end
+    end
+  end
 end
