@@ -15,6 +15,7 @@ module JsDependency
     method_option :parent_analyze_level, type: :numeric, aliases: "-p", desc: "Output level of parent dependency"
     method_option :name_level, type: :numeric, aliases: "-n", desc: "Output name level"
     method_option :excludes, type: :array, aliases: "-e", desc: "Exclude the word that is included in the path"
+    method_option :alias_paths, type: :hash, aliases: "-a", desc: "Alias paths by hash format."
 
     def export_mermaid
       args = JsDependency::CliUtils::Yaml.new.args
@@ -37,6 +38,7 @@ module JsDependency
     method_option :output_path, type: :string, aliases: "-o", desc: "Output file path"
     method_option :parent_analyze_level, type: :numeric, aliases: "-p", desc: "Output level of parent dependency"
     method_option :excludes, type: :array, aliases: "-e", desc: "Exclude the word that is included in the path"
+    method_option :alias_paths, type: :hash, aliases: "-a", desc: "Alias paths by hash format."
 
     def parents
       args = JsDependency::CliUtils::Yaml.new.args
@@ -57,6 +59,7 @@ module JsDependency
     method_option :output_path, type: :string, aliases: "-o", desc: "Output file path"
     method_option :child_analyze_level, type: :numeric, aliases: "-c", desc: "Output level of child dependency"
     method_option :excludes, type: :array, aliases: "-e", desc: "Exclude the word that is included in the path"
+    method_option :alias_paths, type: :hash, aliases: "-a", desc: "Alias paths by hash format."
 
     def children
       args = JsDependency::CliUtils::Yaml.new.args
@@ -73,6 +76,7 @@ module JsDependency
 
     desc "orphan", "export components than is not depended by others"
     method_option :src_path, type: :string, aliases: "-s", desc: "Root folder."
+    method_option :alias_paths, type: :hash, aliases: "-a", desc: "Alias paths by hash format."
 
     def orphan
       args = JsDependency::CliUtils::Yaml.new.args
@@ -85,6 +89,7 @@ module JsDependency
 
     desc "leave", "export components than is not depended by others"
     method_option :src_path, type: :string, aliases: "-s", desc: "Root folder."
+    method_option :alias_paths, type: :hash, aliases: "-a", desc: "Alias paths by hash format."
 
     def leave
       args = JsDependency::CliUtils::Yaml.new.args

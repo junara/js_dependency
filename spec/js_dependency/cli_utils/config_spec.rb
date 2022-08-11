@@ -72,11 +72,13 @@ RSpec.describe JsDependency::CliUtils::Config do
       end
       let(:options) do
         {
-          target_path: "./src/App.vue"
+          target_path: "./src/App.vue",
+          alias_paths: { "@" => "./options/pages" }
         }
       end
 
       it { expect(config.target_path).to eq("./src/App.vue") }
+      it { expect(config.alias_paths).to eq({ "@" => "./options/pages" }) }
     end
   end
 end
