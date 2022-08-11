@@ -5,7 +5,9 @@ module JsDependency
     class Yaml
       attr_reader :args
 
-      def initialize
+      # @param [String, nil] dir_path
+      def initialize(dir_path: nil)
+        @dir_path = dir_path || Dir.pwd
         pathname = config_pathname
         @args = if pathname.nil?
                   {}
@@ -18,9 +20,10 @@ module JsDependency
 
       # @return [Pathname, nil]
       def config_pathname
+        dir_pathname = Pathname.new(@dir_path)
         pathname = nil
         %w[.js_dependency.yml .js_dependency.yaml].each do |path|
-          pathname = Pathname.new(path) if Pathname.new(path).exist?
+          pathname = (dir_pathname + path) if (dir_pathname + path).exist?
         end
         pathname
       end
