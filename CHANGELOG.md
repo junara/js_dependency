@@ -1,5 +1,11 @@
 ## [Unreleased]
 
+## [0.3.8] - 2022-08-11
+
+- `.js_dependecy.yaml` is arrowed for configuration file name.
+- Refactor codes.
+- Add test codes.
+
 ## [0.3.7] - 2022-08-11
 
 - If target is index.js, orphan include in analysis.
