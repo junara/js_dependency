@@ -30,12 +30,7 @@ module JsDependency
       # @param [String] target_path
       # @return [TrueClass, FalseClass]
       def orphan?(target_path)
-        target_pathname = JsDependency::TargetPathname.new(target_path)
-        paths = []
-        target_pathname.each_parent_path(1, @index) do |parent_path, _child_path|
-          paths << parent_path
-        end
-
+        paths = parent_paths(target_path)
         paths += dir_parent_paths(target_path) if target_path.include?("index.js")
 
         paths.size.zero?
@@ -46,6 +41,18 @@ module JsDependency
       # @return [String]
       def relative_path_or_external_path(path, src_path)
         JsDependency::PathnameUtility.relative_path_or_external_path(path, src_path)
+      end
+
+      # Parent paths.
+      # @param [String] target_path
+      # @return [Array<String>]
+      def parent_paths(target_path)
+        target_pathname = JsDependency::TargetPathname.new(target_path)
+        paths = []
+        target_pathname.each_parent_path(1, @index) do |parent_path, _child_path|
+          paths << parent_path
+        end
+        paths
       end
 
       # Directory parent paths.
