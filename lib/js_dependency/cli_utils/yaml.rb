@@ -3,7 +3,8 @@
 module JsDependency
   module CliUtils
     class Yaml
-      attr_reader :args
+      attr_reader :args,
+                  :dir_path
 
       # @param [String, nil] dir_path
       def initialize(dir_path: nil)

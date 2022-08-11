@@ -1,0 +1,11 @@
+src_path: ./src
+target_path: ./src/App.vue
+child_analyze_level: 2
+parent_analyze_level: 2
+name_level: 1
+output_path: ./mermaid.txt
+alias_paths:
+  "@": ./pages
+excludes:
+  - excludedWord1
+  - excludedWord2
