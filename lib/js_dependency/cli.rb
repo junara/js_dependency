@@ -18,29 +18,16 @@ module JsDependency
 
     def export_mermaid
       args = JsDependency::Yaml.new.args
-
-      src_path = options[:src_path] || args[:src_path]
-      target_paths = options[:target_paths] || (args[:target_path].is_a?(String) ? [args[:target_path]] : args[:target_path])
-      child_analyze_level = options[:child_analyze_level] || args[:child_analyze_level] || 2
-      parent_analyze_level = options[:parent_analyze_level] || args[:parent_analyze_level] || 2
-      output_path = options[:output_path] || args[:output_path] || nil
-      alias_paths = args[:alias_paths] || nil
-      name_level = options[:name_level] || args[:name_level] || 1
-      excludes = if options[:excludes]&.length&.positive?
-                   options[:excludes]
-                 elsif args[:excludes]
-                   args[:excludes]
-                 end
-
+      config = override_options(options, args)
       str = JsDependency.export_mermaid(
-        src_path,
-        target_paths,
-        child_analyze_level: child_analyze_level,
-        parent_analyze_level: parent_analyze_level,
-        output_path: output_path,
-        alias_paths: alias_paths,
-        name_level: name_level,
-        excludes: excludes
+        config.src_path,
+        config.target_paths,
+        child_analyze_level: config.child_analyze_level,
+        parent_analyze_level: config.parent_analyze_level,
+        output_path: config.output_path,
+        alias_paths: config.alias_paths,
+        name_level: config.name_level,
+        excludes: config.excludes
       )
 
       puts str
@@ -161,8 +148,29 @@ module JsDependency
 
     private
 
-    def hoge
-      pp "hoge"
+    def override_options(options, args)
+      src_path = options[:src_path] || args[:src_path]
+      target_paths = options[:target_paths] || (args[:target_path].is_a?(String) ? [args[:target_path]] : args[:target_path])
+      child_analyze_level = options[:child_analyze_level] || args[:child_analyze_level] || 2
+      parent_analyze_level = options[:parent_analyze_level] || args[:parent_analyze_level] || 2
+      output_path = options[:output_path] || args[:output_path] || nil
+      alias_paths = args[:alias_paths] || nil
+      name_level = options[:name_level] || args[:name_level] || 1
+      excludes = if options[:excludes]&.length&.positive?
+                   options[:excludes]
+                 elsif args[:excludes]
+                   args[:excludes]
+                 end
+      Struct.new(:src_path, :target_paths, :child_analyze_level, :parent_analyze_level, :output_path, :alias_paths, :name_level, :excludes, keyword_init: true).new(
+        src_path: src_path,
+        target_paths: target_paths,
+        child_analyze_level: child_analyze_level,
+        parent_analyze_level: parent_analyze_level,
+        output_path: output_path,
+        alias_paths: alias_paths,
+        name_level: name_level,
+        excludes: excludes
+      )
     end
   end
 end
