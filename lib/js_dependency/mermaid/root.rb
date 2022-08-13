@@ -36,18 +36,14 @@ module JsDependency
       # @return [Array<String>]
       def export_nodes(name_level: 1, src_path: nil)
         nodes_links = if src_path
-                        src_pathname = Pathname.new(src_path).realpath
-                        @list.map do |nodes_link|
-                          NodesLink.new(nodes_link.parent.exist? ? nodes_link.parent.realpath.relative_path_from(src_pathname.to_s) : nodes_link.parent.to_s,
-                                        nodes_link.child.exist? ? nodes_link.child.realpath.relative_path_from(src_pathname.to_s) : nodes_link.child.to_s)
-                        end
+                        @list.map { |nodes_link| nodes_link.relative_path_from(src_path) }
                       else
                         @list
                       end
-        nodes_links.uniq do |link|
-          "#{link.parent}__#{link.child}"
-        end.sort_by { |link| "#{link.parent}__#{link.child}" }.map do |link|
-          "#{link.parent_module_name(name_level)} --> #{link.child_module_name(name_level)}"
+        nodes_links = nodes_links.uniq { |nodes_link| "#{nodes_link.parent}__#{nodes_link.child}" }
+        nodes_links = nodes_links.sort_by { |nodes_link| "#{nodes_link.parent}__#{nodes_link.child}" }
+        nodes_links.map do |nodes_link|
+          "#{nodes_link.parent_module_name(name_level)} --> #{nodes_link.child_module_name(name_level)}"
         end
       end
     end
