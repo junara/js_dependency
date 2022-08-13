@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.3.11] - 2022-08-13
+
+- Add target_paths options in configuration file to use array.
+
 ## [0.3.10] - 2022-08-13
 
 - Add file_config options to specify configuration yaml which user like.
