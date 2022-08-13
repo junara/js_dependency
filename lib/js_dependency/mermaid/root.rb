@@ -5,6 +5,7 @@ module JsDependency
   module Mermaid
     class Root
       attr_accessor :orientation
+      attr_reader :list
 
       # @param [String] orientation
       def initialize(orientation = "LR")
