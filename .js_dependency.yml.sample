@@ -1,5 +1,8 @@
 src_path: ./src
 target_path: ./src/App.vue
+target_paths:
+  - ./src/App1.vue
+  - ./src/App2.vue
 child_analyze_level: 2
 parent_analyze_level: 2
 name_level: 1

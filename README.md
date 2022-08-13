@@ -35,6 +35,9 @@ Configuration file is `./.js_dependency.yml`. This file includes parameters for 
 ```yaml
 src_path: ./src # Root folder
 target_path: ./src/App.vue # Target file tha you want to analyze
+target_paths: # Target files tha you want to analyze
+  - ./src/App1.vue
+  - ./src/App2.vue
 child_analyze_level: 2 # Output level of child analyze
 parent_analyze_level: 2 # Output level of parent analyze
 name_level: 1 # Output name level
