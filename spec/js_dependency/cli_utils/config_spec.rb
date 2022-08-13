@@ -78,6 +78,35 @@ RSpec.describe JsDependency::CliUtils::Config do
       end
 
       it { expect(config.target_path).to eq("./src/App.vue") }
+      it { expect(config.target_paths).to eq(["./src/App.vue"]) }
+      it { expect(config.alias_paths).to eq({ "@" => "./options/pages" }) }
+    end
+
+    context "when target_paths and target_path is existed" do
+      subject(:config) { described_class.new(options, args) }
+
+      let(:args) do
+        {
+          src_path: "./src",
+          target_paths: ["./src/App.vue"],
+          output_path: "./mermaid.txt",
+          child_analyze_level: 2,
+          parent_analyze_level: 2,
+          name_level: 1,
+          excludes: %w[excludedWord1 excludedWord2],
+          alias_paths: { "@" => "./pages" }
+        }
+      end
+      let(:options) do
+        {
+          target_paths: ["./src/Apps.vue"],
+          target_path: "./src/App.vue",
+          alias_paths: { "@" => "./options/pages" }
+        }
+      end
+
+      it { expect(config.target_path).to eq("./src/App.vue") }
+      it { expect(config.target_paths).to eq(["./src/Apps.vue"]) }
       it { expect(config.alias_paths).to eq({ "@" => "./options/pages" }) }
     end
   end
