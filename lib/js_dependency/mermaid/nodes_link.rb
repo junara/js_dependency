@@ -26,10 +26,32 @@ module JsDependency
         mermaid_str(@child, level)
       end
 
+      # @param [String] src_path
+      # @return [JsDependency::Mermaid::NodesLink]
+      def relative_path_from(src_path)
+        NodesLink.new(
+          relative_parent_path(src_path),
+          relative_child_path(src_path)
+        )
+      end
+
       private
+
+      # @param [String] src_path
+      # @return [String]
+      def relative_parent_path(src_path)
+        parent.exist? ? parent.realpath.relative_path_from(Pathname.new(src_path).realpath.to_s).to_s : parent.to_s
+      end
+
+      # @param [String] src_path
+      # @return [String]
+      def relative_child_path(src_path)
+        child.exist? ? child.realpath.relative_path_from(Pathname.new(src_path).realpath.to_s).to_s : child.to_s
+      end
 
       # @param [Pathname] pathname
       # @param [Integer] level
+      # @return [String]
       def mermaid_str(pathname, level = 0)
         "#{parse(pathname).join("_")}[\"#{parse(pathname, level).join("/")}\"]"
       end

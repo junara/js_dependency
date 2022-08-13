@@ -71,7 +71,7 @@ module JsDependency
       nodes += mermaid_root.export_nodes(name_level: name_level, src_path: src_path)
     end
 
-    output = (["flowchart LR"] + nodes.uniq + styles.uniq).join("\n")
+    output = "#{(["flowchart LR"] + nodes.uniq + styles.uniq).join("\n")}\n"
     output_pathname&.write(output)
     output
   end
