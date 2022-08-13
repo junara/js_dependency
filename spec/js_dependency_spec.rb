@@ -138,7 +138,56 @@ RSpec.describe JsDependency do
     end
 
     it "returns index" do
-      pp call
+      expect(call).to eq(expected)
+    end
+  end
+
+  describe "self.parents" do
+    subject(:call) do
+      src_path = "spec/fixtures/index_creator/self_call/src"
+      alias_paths = { "@" => "./pages" }
+      excludes = ["Exclude"]
+      target_path = "spec/fixtures/index_creator/self_call/src/components/New.vue"
+      described_class.parents(
+        src_path,
+        target_path,
+        alias_paths: alias_paths,
+        parent_analyze_level: 1,
+        output_path: nil,
+        excludes: excludes
+      )
+    end
+
+    let(:expected) do
+      ["pages/app.js"]
+    end
+
+    it "returns index" do
+      expect(call).to eq(expected)
+    end
+  end
+
+  describe "self.children" do
+    subject(:call) do
+      src_path = "spec/fixtures/index_creator/self_call/src"
+      alias_paths = { "@" => "./pages" }
+      excludes = ["Exclude"]
+      target_path = "spec/fixtures/index_creator/self_call/src/components/New.vue"
+      described_class.children(
+        src_path,
+        target_path,
+        alias_paths: alias_paths,
+        child_analyze_level: 1,
+        output_path: nil,
+        excludes: excludes
+      )
+    end
+
+    let(:expected) do
+      %w[components/Button components/modal.js]
+    end
+
+    it "returns index" do
       expect(call).to eq(expected)
     end
   end
