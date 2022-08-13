@@ -16,9 +16,10 @@ module JsDependency
     method_option :name_level, type: :numeric, aliases: "-n", desc: "Output name level"
     method_option :excludes, type: :array, aliases: "-e", desc: "Exclude the word that is included in the path"
     method_option :alias_paths, type: :hash, aliases: "-a", desc: "Alias paths by hash format."
+    method_option :file_config, type: :string, aliases: "-f", desc: "Configuration file path."
 
     def export_mermaid
-      args = JsDependency::CliUtils::Yaml.new.args
+      args = JsDependency::CliUtils::Yaml.new(path: options[:file_config]).args
       config = JsDependency::CliUtils::Config.new(options, args)
       puts JsDependency.export_mermaid(
         config.src_path,
@@ -39,9 +40,10 @@ module JsDependency
     method_option :parent_analyze_level, type: :numeric, aliases: "-p", desc: "Output level of parent dependency"
     method_option :excludes, type: :array, aliases: "-e", desc: "Exclude the word that is included in the path"
     method_option :alias_paths, type: :hash, aliases: "-a", desc: "Alias paths by hash format."
+    method_option :file_config, type: :string, aliases: "-f", desc: "Configuration file path."
 
     def parents
-      args = JsDependency::CliUtils::Yaml.new.args
+      args = JsDependency::CliUtils::Yaml.new(path: options[:file_config]).args
       config = JsDependency::CliUtils::Config.new(options, args)
       puts JsDependency.parents(
         config.src_path,
@@ -60,9 +62,10 @@ module JsDependency
     method_option :child_analyze_level, type: :numeric, aliases: "-c", desc: "Output level of child dependency"
     method_option :excludes, type: :array, aliases: "-e", desc: "Exclude the word that is included in the path"
     method_option :alias_paths, type: :hash, aliases: "-a", desc: "Alias paths by hash format."
+    method_option :file_config, type: :string, aliases: "-f", desc: "Configuration file path."
 
     def children
-      args = JsDependency::CliUtils::Yaml.new.args
+      args = JsDependency::CliUtils::Yaml.new(path: options[:file_config]).args
       config = JsDependency::CliUtils::Config.new(options, args)
       puts JsDependency.children(
         config.src_path,
@@ -77,9 +80,10 @@ module JsDependency
     desc "orphan", "export components than is not depended by others"
     method_option :src_path, type: :string, aliases: "-s", desc: "Root folder."
     method_option :alias_paths, type: :hash, aliases: "-a", desc: "Alias paths by hash format."
+    method_option :file_config, type: :string, aliases: "-f", desc: "Configuration file path."
 
     def orphan
-      args = JsDependency::CliUtils::Yaml.new.args
+      args = JsDependency::CliUtils::Yaml.new(path: options[:file_config]).args
       config = JsDependency::CliUtils::Config.new(options, args)
       puts JsDependency.orphan(
         config.src_path,
@@ -90,9 +94,10 @@ module JsDependency
     desc "leave", "export components than is not depended by others"
     method_option :src_path, type: :string, aliases: "-s", desc: "Root folder."
     method_option :alias_paths, type: :hash, aliases: "-a", desc: "Alias paths by hash format."
+    method_option :file_config, type: :string, aliases: "-f", desc: "Configuration file path."
 
     def leave
-      args = JsDependency::CliUtils::Yaml.new.args
+      args = JsDependency::CliUtils::Yaml.new(path: options[:file_config]).args
       config = JsDependency::CliUtils::Config.new(options, args)
       puts JsDependency.leave(
         config.src_path,
