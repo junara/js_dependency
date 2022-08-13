@@ -1,5 +1,10 @@
 ## [Unreleased]
 
+## [0.3.12] - 2022-08-14
+
+- Add rspec test.
+- Fix script tag contents extraction if script tag has `src` like `<script src="">` .
+
 ## [0.3.11] - 2022-08-13
 
 - Add target_paths options in configuration file to use array.
