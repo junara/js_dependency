@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.3.10] - 2022-08-13
+
+- Add file_config options to specify configuration yaml which user like.
+
 ## [0.3.9] - 2022-08-12
 
 - Add alias_paths options of hash.

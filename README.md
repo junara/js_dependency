@@ -46,6 +46,12 @@ excludes: # Exclude words that you want to skip from export.
   - excludeWord2
 ```
 
+If you want to specify .js_dependency.yml as another path, you can add option path by `-f` option.
+
+```shell
+js_dependency -f path/to/yourfilename.yml
+```
+
 Each parameter is overridden by the command line.
 
 ```
