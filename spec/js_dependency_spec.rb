@@ -38,26 +38,6 @@ RSpec.describe JsDependency do
 
   describe "self.leave" do
     subject(:call) do
-      index =
-        {
-          Pathname.new("spec/fixtures/index_creator/self_call/src/components/Button").realpath.to_s => [
-            Pathname.new("spec/fixtures/index_creator/self_call/src/components/sub/Title.vue").realpath.to_s
-          ],
-          Pathname.new("spec/fixtures/index_creator/self_call/src/components/Button/index.js").realpath.to_s => [
-            Pathname.new("spec/fixtures/index_creator/self_call/src/components/sub/Title.vue").realpath.to_s
-          ],
-          Pathname.new("spec/fixtures/index_creator/self_call/src/components/New.vue").realpath.to_s => [
-            Pathname.new("spec/fixtures/index_creator/self_call/src/components/Button").realpath.to_s,
-            Pathname.new("spec/fixtures/index_creator/self_call/src/components/modal.js").realpath.to_s
-          ],
-          Pathname.new("spec/fixtures/index_creator/self_call/src/components/modal.js").realpath.to_s => [],
-          Pathname.new("spec/fixtures/index_creator/self_call/src/components/sub/Title.vue").realpath.to_s => [],
-          Pathname.new("spec/fixtures/index_creator/self_call/src/pages/app.js").realpath.to_s => [
-            Pathname.new("spec/fixtures/index_creator/self_call/src/components/New.vue").realpath.to_s
-          ],
-          Pathname.new("spec/fixtures/index_creator/self_call/src/utils/calculation.js").realpath.to_s => ["external/lib"],
-          Pathname.new("spec/fixtures/index_creator/self_call/src/components/sub/Exclude.vue").realpath.to_s => []
-        }
       src_path = "spec/fixtures/index_creator/self_call/src"
       described_class.leave(src_path, alias_paths: nil)
     end
@@ -73,26 +53,6 @@ RSpec.describe JsDependency do
 
   describe "self.orphan" do
     subject(:call) do
-      index =
-        {
-          Pathname.new("spec/fixtures/index_creator/self_call/src/components/Button").realpath.to_s => [
-            Pathname.new("spec/fixtures/index_creator/self_call/src/components/sub/Title.vue").realpath.to_s
-          ],
-          Pathname.new("spec/fixtures/index_creator/self_call/src/components/Button/index.js").realpath.to_s => [
-            Pathname.new("spec/fixtures/index_creator/self_call/src/components/sub/Title.vue").realpath.to_s
-          ],
-          Pathname.new("spec/fixtures/index_creator/self_call/src/components/New.vue").realpath.to_s => [
-            Pathname.new("spec/fixtures/index_creator/self_call/src/components/Button").realpath.to_s,
-            Pathname.new("spec/fixtures/index_creator/self_call/src/components/modal.js").realpath.to_s
-          ],
-          Pathname.new("spec/fixtures/index_creator/self_call/src/components/modal.js").realpath.to_s => [],
-          Pathname.new("spec/fixtures/index_creator/self_call/src/components/sub/Title.vue").realpath.to_s => [],
-          Pathname.new("spec/fixtures/index_creator/self_call/src/pages/app.js").realpath.to_s => [
-            Pathname.new("spec/fixtures/index_creator/self_call/src/components/New.vue").realpath.to_s
-          ],
-          Pathname.new("spec/fixtures/index_creator/self_call/src/utils/calculation.js").realpath.to_s => ["external/lib"],
-          Pathname.new("spec/fixtures/index_creator/self_call/src/components/sub/Exclude.vue").realpath.to_s => []
-        }
       src_path = "spec/fixtures/index_creator/self_call/src"
       described_class.orphan(src_path, alias_paths: nil)
     end
