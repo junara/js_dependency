@@ -105,4 +105,67 @@ RSpec.describe JsDependency::Cli do
       end
     end
   end
+
+  describe "#parents" do
+    context "when src_path is not exist" do
+      let(:options) do
+        {}
+      end
+
+      it "parents command is raised" do
+        expect do
+          described_class.new.invoke(:parents, [], options)
+        end.to raise_error
+      end
+    end
+
+    context "when src_path and target_path is exist" do
+      let(:options) do
+        {
+          src_path: "spec/fixtures/index_creator/self_call/src",
+          target_path: "spec/fixtures/index_creator/self_call/src/components/New",
+          alias_paths: {}
+        }
+      end
+
+      it "parents command is not raised" do
+        expect do
+          described_class.new.invoke(:parents, [], options)
+        end.not_to raise_error
+      end
+    end
+
+    context "when cli command with 1 level" do
+      let(:expected_output) do
+        <<~OUTPUT
+          components/New.vue
+        OUTPUT
+      end
+
+      it "return parents list" do
+        output = capture(:stdout) do
+          described_class.start(%w[parents -s spec/fixtures/index_creator/self_call/src -a @:pages -t
+                                   spec/fixtures/index_creator/self_call/src/components/Button -p 1])
+        end
+        expect(output).to eq(expected_output)
+      end
+    end
+
+    context "when cli command with 2 level" do
+      let(:expected_output) do
+        <<~OUTPUT
+          components/New.vue
+          pages/app.js
+        OUTPUT
+      end
+
+      it "return parents list" do
+        output = capture(:stdout) do
+          described_class.start(%w[parents -s spec/fixtures/index_creator/self_call/src -a @:pages -t
+                                   spec/fixtures/index_creator/self_call/src/components/Button -p 2])
+        end
+        expect(output).to eq(expected_output)
+      end
+    end
+  end
 end
