@@ -234,4 +234,80 @@ RSpec.describe JsDependency::Cli do
       end
     end
   end
+
+  describe "#export_mermaid" do
+    context "when src_path is not exist" do
+      let(:options) do
+        {}
+      end
+
+      it "export_mermaid command is raised" do
+        expect do
+          described_class.new.invoke(:export_mermaid, [], options)
+        end.to raise_error
+      end
+    end
+
+    context "when src_path and target_path is exist" do
+      let(:options) do
+        {
+          src_path: "spec/fixtures/index_creator/self_call/src",
+          target_paths: ["spec/fixtures/index_creator/self_call/src/components/New"],
+          alias_paths: {}
+        }
+      end
+
+      it "export_mermaid command is not raised" do
+        expect do
+          described_class.new.invoke(:export_mermaid, [], options)
+        end.not_to raise_error
+      end
+    end
+
+    context "when cli command with 1 target_paths" do
+      let(:expected_output) do
+        <<~OUTPUT
+          flowchart LR
+          components_Button["components/Button"] --> components_sub_Title.vue["sub/Title.vue"]
+          components_Button["components/Button"] --> fixtures_index_creator_self_call_src_components_sub_Exclude["sub/Exclude"]
+          components_New.vue["components/New.vue"] --> components_Button["components/Button"]
+          components_New.vue["components/New.vue"] --> components_modal.js["components/modal.js"]
+          pages_app.js["pages/app.js"] --> components_New.vue["components/New.vue"]
+          style components_New.vue stroke:#f9f,stroke-width:4px
+        OUTPUT
+      end
+
+      it "return mermaid format text" do
+        output = capture(:stdout) do
+          described_class.start(%w[export_mermaid -s spec/fixtures/index_creator/self_call/src -a @:pages -t
+                                   spec/fixtures/index_creator/self_call/src/components/New.vue])
+        end
+        expect(output).to eq(expected_output)
+      end
+    end
+
+    context "when cli command with 2 target_paths" do
+      let(:expected_output) do
+        <<~OUTPUT
+          flowchart LR
+          components_Button["components/Button"] --> components_sub_Title.vue["sub/Title.vue"]
+          components_Button["components/Button"] --> fixtures_index_creator_self_call_src_components_sub_Exclude["sub/Exclude"]
+          components_New.vue["components/New.vue"] --> components_Button["components/Button"]
+          components_New.vue["components/New.vue"] --> components_modal.js["components/modal.js"]
+          pages_app.js["pages/app.js"] --> components_New.vue["components/New.vue"]
+          utils_calculation.js["utils/calculation.js"] --> external_lib["external/lib"]
+          style components_New.vue stroke:#f9f,stroke-width:4px
+          style utils_calculation.js stroke:#f9f,stroke-width:4px
+        OUTPUT
+      end
+
+      it "return mermaid format text" do
+        output = capture(:stdout) do
+          described_class.start(%w[export_mermaid -s spec/fixtures/index_creator/self_call/src -a @:pages -t
+                                   spec/fixtures/index_creator/self_call/src/components/New.vue spec/fixtures/index_creator/self_call/src/utils/calculation.js])
+        end
+        expect(output).to eq(expected_output)
+      end
+    end
+  end
 end
