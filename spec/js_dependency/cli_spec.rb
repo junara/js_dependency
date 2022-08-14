@@ -168,4 +168,70 @@ RSpec.describe JsDependency::Cli do
       end
     end
   end
+
+  describe "#children" do
+    context "when src_path is not exist" do
+      let(:options) do
+        {}
+      end
+
+      it "children command is raised" do
+        expect do
+          described_class.new.invoke(:children, [], options)
+        end.to raise_error
+      end
+    end
+
+    context "when src_path and target_path is exist" do
+      let(:options) do
+        {
+          src_path: "spec/fixtures/index_creator/self_call/src",
+          target_path: "spec/fixtures/index_creator/self_call/src/components/New",
+          alias_paths: {}
+        }
+      end
+
+      it "children command is not raised" do
+        expect do
+          described_class.new.invoke(:children, [], options)
+        end.not_to raise_error
+      end
+    end
+
+    context "when cli command with 1 level" do
+      let(:expected_output) do
+        <<~OUTPUT
+          components/Button
+          components/modal.js
+        OUTPUT
+      end
+
+      it "return children list" do
+        output = capture(:stdout) do
+          described_class.start(%w[children -s spec/fixtures/index_creator/self_call/src -a @:pages -t
+                                   spec/fixtures/index_creator/self_call/src/components/New.vue -c 1])
+        end
+        expect(output).to eq(expected_output)
+      end
+    end
+
+    context "when cli command with 2 level" do
+      let(:expected_output) do
+        <<~OUTPUT
+          components/Button
+          components/modal.js
+          components/sub/Title.vue
+          fixtures/index_creator/self_call/src/components/sub/Exclude
+        OUTPUT
+      end
+
+      it "return children list" do
+        output = capture(:stdout) do
+          described_class.start(%w[children -s spec/fixtures/index_creator/self_call/src -a @:pages -t
+                                   spec/fixtures/index_creator/self_call/src/components/New.vue -c 2])
+        end
+        expect(output).to eq(expected_output)
+      end
+    end
+  end
 end
