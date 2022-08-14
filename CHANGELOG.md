@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.3.13] - 2022-08-14
+
+- Add rspec test.
+
 ## [0.3.12] - 2022-08-14
 
 - Add rspec test.
