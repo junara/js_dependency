@@ -27,4 +27,24 @@ RSpec.configure do |config|
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end
+
+  # rubocop:disable Security/Eval, Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation
+
+  # capture command line standard output
+  # @see https://github.com/rails/thor/blob/e4907fdd663d0a1ff51d18eb1827552ee61300a3/spec/helper.rb#L51-L62
+  # @param [Symbol] stream
+  # @return [String]
+  def capture(stream)
+    begin
+      stream = stream.to_s
+      eval "$#{stream} = StringIO.new"
+      yield
+      result = eval("$#{stream}").string
+    ensure
+      eval("$#{stream} = #{stream.upcase}")
+    end
+
+    result
+  end
+  # rubocop:enable Security/Eval, Style/DocumentDynamicEvalDefinition, Style/EvalWithLocation
 end
