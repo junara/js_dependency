@@ -59,4 +59,50 @@ RSpec.describe JsDependency::Cli do
       end
     end
   end
+
+  describe "#leave" do
+    context "when src_path is not exist" do
+      let(:options) do
+        {}
+      end
+
+      it "parents command is raised" do
+        expect do
+          described_class.new.invoke(:leave, [], options)
+        end.to raise_error
+      end
+    end
+
+    context "when src_path is exist" do
+      let(:options) do
+        {
+          src_path: "spec/fixtures/index_creator/self_call/src",
+          alias_paths: {}
+        }
+      end
+
+      it "parents command is not raised" do
+        expect do
+          described_class.new.invoke(:leave, [], options)
+        end.not_to raise_error
+      end
+    end
+
+    context "when cli command" do
+      let(:expected_output) do
+        <<~OUTPUT
+          components/modal.js
+          components/sub/Exclude.vue
+          components/sub/Title.vue
+        OUTPUT
+      end
+
+      it "return orphan list" do
+        output = capture(:stdout) do
+          described_class.start(%w[leave -s spec/fixtures/index_creator/self_call/src -a @:pages])
+        end
+        expect(output).to eq(expected_output)
+      end
+    end
+  end
 end
