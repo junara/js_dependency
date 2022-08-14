@@ -23,7 +23,7 @@ RSpec.describe JsDependency::Cli do
       it "parents command is raised" do
         expect do
           described_class.new.invoke(:orphan, [], options)
-        end.to raise_error
+        end.to raise_error(TypeError)
       end
     end
 
@@ -69,7 +69,7 @@ RSpec.describe JsDependency::Cli do
       it "parents command is raised" do
         expect do
           described_class.new.invoke(:leave, [], options)
-        end.to raise_error
+        end.to raise_error(TypeError)
       end
     end
 
@@ -115,7 +115,7 @@ RSpec.describe JsDependency::Cli do
       it "parents command is raised" do
         expect do
           described_class.new.invoke(:parents, [], options)
-        end.to raise_error
+        end.to raise_error(TypeError)
       end
     end
 
@@ -178,7 +178,7 @@ RSpec.describe JsDependency::Cli do
       it "children command is raised" do
         expect do
           described_class.new.invoke(:children, [], options)
-        end.to raise_error
+        end.to raise_error(TypeError)
       end
     end
 
@@ -244,7 +244,7 @@ RSpec.describe JsDependency::Cli do
       it "export_mermaid command is raised" do
         expect do
           described_class.new.invoke(:export_mermaid, [], options)
-        end.to raise_error
+        end.to raise_error(TypeError)
       end
     end
 
