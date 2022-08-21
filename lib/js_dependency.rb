@@ -36,9 +36,13 @@ module JsDependency
   # @param [String] src_path
   # @param [Hash, nil] alias_paths
   # @return [Array<String>]
-  def self.orphan(src_path, alias_paths: nil)
+  def self.orphan(src_path, alias_paths: nil, exclude_output_names: [])
     index = JsDependency::IndexCreator.call(src_path, alias_paths: alias_paths)
-    JsDependency::SourceAnalysis::Orphan.new(index, src_path).call
+    JsDependency::SourceAnalysis::Orphan.new(index, src_path).call.filter do |path|
+      exclude_output_names.none? do |name|
+        path.include?(name)
+      end
+    end
   end
 
   # @param [String] src_path
@@ -137,7 +141,7 @@ module JsDependency
   # @param [String, nil] identifier
   # @return [String]
   def self.export_markdown_report(src_path, target_paths, orientation: "LR", alias_paths: nil, child_analyze_level: 1,
-                                  parent_analyze_level: 1, name_level: 1, excludes: nil, identifier: nil)
+                                  parent_analyze_level: 1, name_level: 1, excludes: nil, identifier: nil, exclude_output_names: [])
     permitted_target_paths = JsDependency::PathnameUtility.filter_js_files(target_paths)
     mermaid_markdown = if target_paths.nil? || target_paths.empty?
                          nil
@@ -153,7 +157,7 @@ module JsDependency
                            excludes: excludes
                          )
                        end
-    orphan_list = JsDependency.orphan(src_path, alias_paths: alias_paths)
+    orphan_list = JsDependency.orphan(src_path, alias_paths: alias_paths, exclude_output_names: exclude_output_names)
 
     JsDependency::Report::Markdown.new(orphan_list, mermaid_markdown, identifier: identifier).export
   end

@@ -379,5 +379,45 @@ RSpec.describe JsDependency::Cli do
         expect(output).to eq(expected_output)
       end
     end
+
+    context "when exclude_output_names is present" do
+      let(:expected_output) do
+        <<~OUTPUT
+          ## JsDependency Reports
+
+          ### Orphan modules
+
+          2 orphaned modules.
+
+          * ``components/sub/Exclude.vue``
+          * ``utils/calculation.js``
+
+          ### Module dependency
+
+          ```mermaid
+          flowchart LR
+          components_Button["components/Button"] --> components_sub_Title.vue["sub/Title.vue"]
+          components_Button["components/Button"] --> fixtures_index_creator_self_call_src_components_sub_Exclude["sub/Exclude"]
+          components_New.vue["components/New.vue"] --> components_Button["components/Button"]
+          components_New.vue["components/New.vue"] --> components_modal.js["components/modal.js"]
+          pages_app.js["pages/app.js"] --> components_New.vue["components/New.vue"]
+          utils_calculation.js["utils/calculation.js"] --> external_lib["external/lib"]
+          style components_New.vue stroke:#f9f,stroke-width:4px
+          style utils_calculation.js stroke:#f9f,stroke-width:4px
+          ```
+
+          <!-- identifier -->
+        OUTPUT
+      end
+
+      it "return orphan list that do not include pages" do
+        output = capture(:stdout) do
+          described_class.start(%w[export_markdown_report -s spec/fixtures/index_creator/self_call/src -a @:pages -t
+                                   spec/fixtures/index_creator/self_call/src/components/New.vue spec/fixtures/index_creator/self_call/src/utils/calculation.js --identifier identifier
+                                   --exclude-output-names pages])
+        end
+        expect(output).to eq(expected_output)
+      end
+    end
   end
 end

@@ -52,17 +52,34 @@ RSpec.describe JsDependency do
   end
 
   describe "self.orphan" do
-    subject(:call) do
-      src_path = "spec/fixtures/index_creator/self_call/src"
-      described_class.orphan(src_path, alias_paths: nil)
+    context "when exclude_output_name option is blank" do
+      subject(:call) do
+        src_path = "spec/fixtures/index_creator/self_call/src"
+        described_class.orphan(src_path, alias_paths: nil)
+      end
+
+      let(:expected) do
+        %w[components/sub/Exclude.vue components/sub/Title.vue pages/app.js utils/calculation.js]
+      end
+
+      it "returns index" do
+        expect(call).to contain_exactly(*expected)
+      end
     end
 
-    let(:expected) do
-      %w[components/sub/Exclude.vue components/sub/Title.vue pages/app.js utils/calculation.js]
-    end
+    context "when exclude_output_name option is present" do
+      subject(:call) do
+        src_path = "spec/fixtures/index_creator/self_call/src"
+        described_class.orphan(src_path, alias_paths: nil, exclude_output_names: ["pages"])
+      end
 
-    it "returns index" do
-      expect(call).to contain_exactly(*expected)
+      let(:expected) do
+        %w[components/sub/Exclude.vue components/sub/Title.vue utils/calculation.js]
+      end
+
+      it "returns expected that don not include pages" do
+        expect(call).to contain_exactly(*expected)
+      end
     end
   end
 
