@@ -138,12 +138,13 @@ module JsDependency
   # @return [String]
   def self.export_markdown_report(src_path, target_paths, orientation: "LR", alias_paths: nil, child_analyze_level: 1,
                                   parent_analyze_level: 1, name_level: 1, excludes: nil, identifier: nil)
+    permitted_target_paths = JsDependency::PathnameUtility.filter_js_files(target_paths)
     mermaid_markdown = if target_paths.nil? || target_paths.empty?
                          nil
                        else
                          JsDependency.export_mermaid(
                            src_path,
-                           target_paths,
+                           permitted_target_paths,
                            orientation: orientation,
                            alias_paths: alias_paths,
                            child_analyze_level: child_analyze_level,
