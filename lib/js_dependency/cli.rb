@@ -109,5 +109,32 @@ module JsDependency
     def version
       puts JsDependency::VERSION
     end
+
+    desc "export_markdown_report", "Output markdown formatted report."
+    method_option :src_path, type: :string, aliases: "-s", desc: "Root folder."
+    method_option :target_paths, type: :array, aliases: "-t", desc: "Target file that you want to analyze."
+    method_option :output_path, type: :string, aliases: "-o", desc: "Output file path"
+    method_option :child_analyze_level, type: :numeric, aliases: "-c", desc: "Output level of child dependency"
+    method_option :parent_analyze_level, type: :numeric, aliases: "-p", desc: "Output level of parent dependency"
+    method_option :name_level, type: :numeric, aliases: "-n", desc: "Output name level"
+    method_option :excludes, type: :array, aliases: "-e", desc: "Exclude the word that is included in the path"
+    method_option :alias_paths, type: :hash, aliases: "-a", desc: "Alias paths by hash format."
+    method_option :file_config, type: :string, aliases: "-f", desc: "Configuration file path."
+    method_option :identifier, type: :string, desc: "Embed id in markdown."
+
+    def export_markdown_report
+      args = JsDependency::CliUtils::Yaml.new(path: options[:file_config]).args
+      config = JsDependency::CliUtils::Config.new(options, args)
+      puts JsDependency.export_markdown_report(
+        config.src_path,
+        config.target_paths,
+        child_analyze_level: config.child_analyze_level,
+        parent_analyze_level: config.parent_analyze_level,
+        alias_paths: config.alias_paths,
+        name_level: config.name_level,
+        excludes: config.excludes,
+        identifier: config.identifier
+      )
+    end
   end
 end

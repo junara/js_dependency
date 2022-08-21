@@ -11,7 +11,7 @@ module JsDependency
       def initialize(orphan_list, mermaid_markdown, identifier: nil)
         @orphan_list = orphan_list || []
         @mermaid_markdown = mermaid_markdown || ""
-        @identifier = identifier
+        @identifier = identifier || "js_dependency_report_identifier"
       end
 
       # @return [String]
