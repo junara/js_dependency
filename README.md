@@ -88,6 +88,70 @@ js_dependency -s ./src -t ./src/App.vue ./src/components/Sub.vue -o ./mermaid.tx
 js_dependency -s ./src -t ./src/App.vue -o ./mermaid.txt -c 2 -p 2 -n 1 -e excludeWord1 excludeWord2 -a @:./pages
 ```
 
+#### Export Markdown report
+
+```shell
+js_dependency export_markdown_report -s ./src -t ./src/App.vue -c 2 -p 2 -n 1 -a @:./pages --identifier your_uniq_identifier_for_upsert_report
+```
+
+Like this:
+
+```
+## JsDependency Reports
+
+### Orphan modules
+
+3 orphaned modules.
+
+* ``components/sub/Exclude.vue``
+* ``pages/app.js``
+* ``utils/calculation.js``
+
+### Module dependency
+
+\```mermaid
+flowchart LR
+components_Button["components/Button"] --> components_sub_Title.vue["sub/Title.vue"]
+components_Button["components/Button"] --> fixtures_index_creator_self_call_src_components_sub_Exclude["sub/Exclude"]
+components_New.vue["components/New.vue"] --> components_Button["components/Button"]
+components_New.vue["components/New.vue"] --> components_modal.js["components/modal.js"]
+pages_app.js["pages/app.js"] --> components_New.vue["components/New.vue"]
+utils_calculation.js["utils/calculation.js"] --> external_lib["external/lib"]
+style components_New.vue stroke:#f9f,stroke-width:4px
+style utils_calculation.js stroke:#f9f,stroke-width:4px
+\```
+
+<!-- identifier -->
+
+```
+
+## JsDependency Reports
+
+### Orphan modules
+
+3 orphaned modules.
+
+* ``components/sub/Exclude.vue``
+* ``pages/app.js``
+* ``utils/calculation.js``
+
+### Module dependency
+
+```mermaid
+flowchart LR
+components_Button["components/Button"] --> components_sub_Title.vue["sub/Title.vue"]
+components_Button["components/Button"] --> fixtures_index_creator_self_call_src_components_sub_Exclude["sub/Exclude"]
+components_New.vue["components/New.vue"] --> components_Button["components/Button"]
+components_New.vue["components/New.vue"] --> components_modal.js["components/modal.js"]
+pages_app.js["pages/app.js"] --> components_New.vue["components/New.vue"]
+utils_calculation.js["utils/calculation.js"] --> external_lib["external/lib"]
+style components_New.vue stroke:#f9f,stroke-width:4px
+style utils_calculation.js stroke:#f9f,stroke-width:4px
+```
+
+<!-- identifier -->
+
+
 #### Export parents components list
 
 ```shell
