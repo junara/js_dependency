@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+## [0.3.14] - 2022-08-14
+
+- Add export_markdown_report cli. This will export the markdown report to a file for GitHub comment.
+
 ## [0.3.13] - 2022-08-14
 
 - Add rspec test.
