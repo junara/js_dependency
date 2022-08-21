@@ -1,0 +1,50 @@
+name: Add js_dependency analysis report in pull request comment
+on:
+  pull_request:
+
+jobs:
+  js_dependency:
+    name: Export Mermaid by js_dependency
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: ruby/setup-ruby@359bebbc29cbe6c87da6bc9ea3bc930432750108
+        with:
+          ruby-version: '3.1'
+      - run: gem install js_dependency
+      - uses: technote-space/get-diff-action@c747e3f4e5fe6ab4870031a8e33721e61914140c
+      - run: echo ${{ env.GIT_DIFF }}
+      - name: Create report
+        env:
+          SRC_PATH: spec/fixtures/index_creator/self_call/src
+          CHILD_ANALYZE_LEVEL: 2
+          PARENT_ANALYZE_LEVEL: 2
+          NAME_LEVEL: 2
+          ALIAS_PATHS: "@:./pages"
+          IDENTIFIER: js_dependency_pull_request_comments_${{ github.ref }}
+          EXCLUDE_OUTPUT_NAMES: "pages"
+        run: |
+          cat << EOF > ${{ github.sha }}_comment
+          `js_dependency export_markdown_report -s ${SRC_PATH} -t ${{ env.GIT_DIFF }} -a ${ALIAS_PATHS} -c ${CHILD_ANALYZE_LEVEL} -p ${PARENT_ANALYZE_LEVEL} --identifier ${IDENTIFIER} --exclude-output-names ${EXCLUDE_OUTPUT_NAMES}`
+          
+          ### Analyzed commit
+          ${{ github.sha }}
+          EOF
+        if: env.GIT_DIFF
+      - id: get-comment-body
+        run: |
+          body="$(cat ${{ github.sha }}_comment)"
+          body="${body//'%'/'%25'}"
+          body="${body//$'\n'/'%0A'}"
+          body="${body//$'\r'/'%0D'}"
+          echo "::set-output name=body::$body"
+        if: env.GIT_DIFF
+      - name: Upsert JsDependency PR comment
+        uses: thollander/actions-comment-pull-request@686ab1cab89e0f715a44a0d04b9fdfdd4f33d751
+        with:
+          message: ${{ steps.get-comment-body.outputs.body }}
+          comment_includes: "<!-- js_dependency_pull_request_comments_${{ github.ref }} -->"
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        if: env.GIT_DIFF
