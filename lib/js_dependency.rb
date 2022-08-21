@@ -9,6 +9,7 @@ require_relative "js_dependency/mermaid/target_pathname"
 require_relative "js_dependency/source_analysis/leave"
 require_relative "js_dependency/source_analysis/orphan"
 require_relative "js_dependency/pathname_utility"
+require_relative "js_dependency/report/markdown"
 require_relative "js_dependency/cli_utils/yaml"
 require_relative "js_dependency/cli_utils/config"
 require "pathname"
@@ -122,5 +123,34 @@ module JsDependency
     end
     output_pathname&.write(output.sort.join("\n"))
     output
+  end
+
+  # @param [String] src_path
+  # @param [Array<String>] target_paths
+  # @param [String] orientation
+  # @param [Hash, nil] alias_paths
+  # @param [Integer] child_analyze_level
+  # @param [Integer] parent_analyze_level
+  # @param [Integer] name_level
+  # @param [String, nil] output_path
+  # @param [Array, nil] excludes
+  # @param [String, nil] identifier
+  # @return [String]
+  def self.export_markdown_report(src_path, target_paths, orientation: "LR", alias_paths: nil, child_analyze_level: 1,
+                                  parent_analyze_level: 1, name_level: 1, excludes: nil, identifier: nil)
+    mermaid_markdown = JsDependency.export_mermaid(
+      src_path,
+      target_paths,
+      orientation: orientation,
+      alias_paths: alias_paths,
+      child_analyze_level: child_analyze_level,
+      parent_analyze_level: parent_analyze_level,
+      name_level: name_level,
+      excludes: excludes
+    )
+
+    orphan_list = JsDependency.orphan(src_path, alias_paths: alias_paths)
+
+    JsDependency::Report::Markdown.new(orphan_list, mermaid_markdown, identifier: identifier).export
   end
 end
