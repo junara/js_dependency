@@ -4,7 +4,7 @@ module JsDependency
   module CliUtils
     class Config
       attr_reader :src_path, :target_paths, :target_path, :child_analyze_level, :parent_analyze_level, :output_path,
-                  :alias_paths, :name_level, :excludes, :identifier
+                  :alias_paths, :name_level, :excludes, :identifier, :exclude_output_names
 
       # @param [Hash] options
       # @param [Hash] args
@@ -21,6 +21,7 @@ module JsDependency
         @name_level = options[:name_level] || args[:name_level] || 1
         @excludes = calc_excludes(options[:excludes], args[:excludes])
         @identifier = options[:identifier] || nil
+        @exclude_output_names = options[:exclude_output_names] || []
       end
 
       private

@@ -121,7 +121,7 @@ module JsDependency
     method_option :alias_paths, type: :hash, aliases: "-a", desc: "Alias paths by hash format."
     method_option :file_config, type: :string, aliases: "-f", desc: "Configuration file path."
     method_option :identifier, type: :string, desc: "Embed id in markdown."
-
+    method_option :exclude_output_names, type: :array, desc: "Exclude output names"
     def export_markdown_report
       args = JsDependency::CliUtils::Yaml.new(path: options[:file_config]).args
       config = JsDependency::CliUtils::Config.new(options, args)
@@ -133,7 +133,8 @@ module JsDependency
         alias_paths: config.alias_paths,
         name_level: config.name_level,
         excludes: config.excludes,
-        identifier: config.identifier
+        identifier: config.identifier,
+        exclude_output_names: config.exclude_output_names
       )
     end
   end

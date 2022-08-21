@@ -12,3 +12,5 @@ alias_paths:
 excludes:
   - excludedWord1
   - excludedWord2
+exclude_output_names:
+  - pages
