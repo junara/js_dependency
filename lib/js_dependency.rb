@@ -138,17 +138,20 @@ module JsDependency
   # @return [String]
   def self.export_markdown_report(src_path, target_paths, orientation: "LR", alias_paths: nil, child_analyze_level: 1,
                                   parent_analyze_level: 1, name_level: 1, excludes: nil, identifier: nil)
-    mermaid_markdown = JsDependency.export_mermaid(
-      src_path,
-      target_paths,
-      orientation: orientation,
-      alias_paths: alias_paths,
-      child_analyze_level: child_analyze_level,
-      parent_analyze_level: parent_analyze_level,
-      name_level: name_level,
-      excludes: excludes
-    )
-
+    mermaid_markdown = if target_paths.nil? || target_paths.empty?
+                         nil
+                       else
+                         JsDependency.export_mermaid(
+                           src_path,
+                           target_paths,
+                           orientation: orientation,
+                           alias_paths: alias_paths,
+                           child_analyze_level: child_analyze_level,
+                           parent_analyze_level: parent_analyze_level,
+                           name_level: name_level,
+                           excludes: excludes
+                         )
+                       end
     orphan_list = JsDependency.orphan(src_path, alias_paths: alias_paths)
 
     JsDependency::Report::Markdown.new(orphan_list, mermaid_markdown, identifier: identifier).export
