@@ -6,7 +6,7 @@ RSpec.describe JsDependency::Report::Markdown do
   describe "#initialize" do
     where(:orphan_list, :mermaid_markdown, :identifier, :expected_orphan_list, :expected_mermaid_markdown, :expected_identifier) do
       [
-        [nil, nil, nil, [], "", "js_dependency_report_identifier"],
+        [nil, nil, nil, [], nil, "js_dependency_report_identifier"],
         [%w[a b], "txt", nil, %w[a b], "txt", "js_dependency_report_identifier"],
         [%w[a b], "txt", "uniq_identifier", %w[a b], "txt", "uniq_identifier"]
       ]
@@ -66,6 +66,16 @@ RSpec.describe JsDependency::Report::Markdown do
       end
 
       it { expect(markdown.export).to include("js_dependency_report_identifier") }
+    end
+
+    context "when mermaid_markdown is empty" do
+      subject(:markdown) { described_class.new(%w[orphan_a orphan_b], nil, identifier: nil) }
+
+      it "returns formatted report" do
+        expect(markdown.export).to be_a(String)
+      end
+
+      it { expect(markdown.export).to include(".vue or .js or .jsx files are not changed.") }
     end
   end
 end
