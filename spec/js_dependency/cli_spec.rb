@@ -413,8 +413,8 @@ RSpec.describe JsDependency::Cli do
       it "return orphan list that do not include pages" do
         output = capture(:stdout) do
           described_class.start(%w[export_markdown_report -s spec/fixtures/index_creator/self_call/src -a @:pages -t
-                                   spec/fixtures/index_creator/self_call/src/components/New.vue spec/fixtures/index_creator/self_call/src/utils/calculation.js --identifier identifier
-                                   --exclude-output-names pages])
+                                   spec/fixtures/index_creator/self_call/src/components/New.vue spec/fixtures/index_creator/self_call/src/utils/calculation.js
+                                   --identifier identifier --exclude-output-names pages])
         end
         expect(output).to eq(expected_output)
       end
