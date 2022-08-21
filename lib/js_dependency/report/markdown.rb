@@ -10,7 +10,7 @@ module JsDependency
       # @param [nil, String] identifier
       def initialize(orphan_list, mermaid_markdown, identifier: nil)
         @orphan_list = orphan_list || []
-        @mermaid_markdown = mermaid_markdown || ""
+        @mermaid_markdown = mermaid_markdown
         @identifier = identifier || "js_dependency_report_identifier"
       end
 
@@ -30,17 +30,22 @@ module JsDependency
           markdown += "#{@orphan_list.map { |str| "* ``#{str}``" }.join("\n")}\n\n"
         end
 
-        markdown += <<~"MAKRDOWNTEXT"
-          ### Module dependency
+        markdown += "### Module dependency\n\n"
 
-          ```mermaid
-        MAKRDOWNTEXT
-        markdown += @mermaid_markdown.to_s
+        if @mermaid_markdown.nil? || @mermaid_markdown.empty?
+          markdown += ".vue or .js or .jsx files are not changed.\n\n"
+        else
+          markdown += <<~"MAKRDOWNTEXT"
+            ```mermaid
+          MAKRDOWNTEXT
 
-        markdown += <<~"MAKRDOWNTEXT"
-          ```
+          markdown += @mermaid_markdown.to_s
 
-        MAKRDOWNTEXT
+          markdown += <<~"MAKRDOWNTEXT"
+            ```
+
+          MAKRDOWNTEXT
+        end
 
         markdown += "<!-- #{@identifier} -->"
         markdown
