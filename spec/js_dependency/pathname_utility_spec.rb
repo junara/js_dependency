@@ -111,4 +111,20 @@ RSpec.describe JsDependency::PathnameUtility do
       end
     end
   end
+
+  describe "#filter_js_files" do
+    where(:paths, :expected) do
+      [
+        [[], []],
+        [nil, nil],
+        [%w[a.js a.vue a.jsx a.txt], %w[a.js a.vue a.jsx]]
+      ]
+    end
+
+    with_them do
+      it "returns permitted files" do
+        expect(described_class.filter_js_files(paths)).to eq(expected)
+      end
+    end
+  end
 end

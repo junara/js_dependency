@@ -46,5 +46,14 @@ module JsDependency
         pathname.to_s
       end
     end
+
+    # @param [Array<String>] paths
+    # @return [Array<String>]
+    def self.filter_js_files(paths)
+      return paths if paths.nil? || paths.empty?
+
+      permitted_extnames = %w[.js .vue .jsx]
+      paths.filter { |path| permitted_extnames.include?(Pathname.new(path).extname) }
+    end
   end
 end
