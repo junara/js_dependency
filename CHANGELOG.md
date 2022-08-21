@@ -1,6 +1,10 @@
 ## [Unreleased]
 
-## [0.3.14] - 2022-08-14
+## [0.3.15] - 2022-08-21
+
+- Add exclude_output_names option for export_markdown_report.
+
+## [0.3.14] - 2022-08-21
 
 - Add export_markdown_report cli. This will export the markdown report to a file for GitHub comment.
 
