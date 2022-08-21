@@ -91,8 +91,10 @@ js_dependency -s ./src -t ./src/App.vue -o ./mermaid.txt -c 2 -p 2 -n 1 -e exclu
 #### Export Markdown report
 
 ```shell
-js_dependency export_markdown_report -s ./src -t ./src/App.vue -c 2 -p 2 -n 1 -a @:./pages --identifier your_uniq_identifier_for_upsert_report
+js_dependency export_markdown_report -s ./src -t ./src/App.vue -c 2 -p 2 -n 1 -a @:./pages --identifier your_uniq_identifier_for_upsert_report --exclude_output_names pages
 ```
+
+``--exclude_output_names`` option is used to exclude outputs from orphan list by name matching. In following results, include pages file is excluded from orphan.
 
 Like this:
 
@@ -101,10 +103,9 @@ Like this:
 
 ### Orphan modules
 
-3 orphaned modules.
+2 orphaned modules.
 
 * ``components/sub/Exclude.vue``
-* ``pages/app.js``
 * ``utils/calculation.js``
 
 ### Module dependency
@@ -129,10 +130,9 @@ style utils_calculation.js stroke:#f9f,stroke-width:4px
 
 ### Orphan modules
 
-3 orphaned modules.
+2 orphaned modules.
 
 * ``components/sub/Exclude.vue``
-* ``pages/app.js``
 * ``utils/calculation.js``
 
 ### Module dependency
