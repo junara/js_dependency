@@ -74,7 +74,7 @@ RSpec.describe JsDependency::Mermaid::Root do
       end
     end
 
-    context "when src_path and name_leve is existed" do
+    context "when src_path and name_level is existed" do
       subject(:root) { described_class.new }
 
       before do
@@ -129,7 +129,7 @@ RSpec.describe JsDependency::Mermaid::Root do
       end
     end
 
-    context "when src_path and name_leve is existed" do
+    context "when src_path and name_level is existed" do
       subject(:root) { described_class.new }
 
       before do
