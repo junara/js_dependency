@@ -87,7 +87,7 @@ module JsDependency
         return nil if obj.nil?
         return obj if obj.is_a?(String)
 
-        return obj.first if obj.is_a?(Array)
+        obj.first if obj.is_a?(Array)
       end
     end
   end
