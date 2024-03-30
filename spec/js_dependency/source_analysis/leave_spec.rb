@@ -34,7 +34,7 @@ RSpec.describe JsDependency::SourceAnalysis::Leave do
     end
 
     it "returns index" do
-      expect(call).to contain_exactly(*expected)
+      expect(call).to match_array(expected)
     end
   end
 end

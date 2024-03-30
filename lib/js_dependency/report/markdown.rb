@@ -16,7 +16,7 @@ module JsDependency
 
       # @return [String]
       def export
-        markdown = <<~"MAKRDOWNTEXT"
+        markdown = <<~MAKRDOWNTEXT
           ## JsDependency Reports
 
           ### Orphan modules
@@ -35,13 +35,13 @@ module JsDependency
         if @mermaid_markdown.nil? || @mermaid_markdown.empty?
           markdown += ".vue or .js or .jsx files are not changed.\n\n"
         else
-          markdown += <<~"MAKRDOWNTEXT"
+          markdown += <<~MAKRDOWNTEXT
             ```mermaid
           MAKRDOWNTEXT
 
           markdown += @mermaid_markdown.to_s
 
-          markdown += <<~"MAKRDOWNTEXT"
+          markdown += <<~MAKRDOWNTEXT
             ```
 
           MAKRDOWNTEXT

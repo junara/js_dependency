@@ -47,7 +47,7 @@ RSpec.describe JsDependency do
     end
 
     it "returns index" do
-      expect(call).to contain_exactly(*expected)
+      expect(call).to match_array(expected)
     end
   end
 
@@ -63,7 +63,7 @@ RSpec.describe JsDependency do
       end
 
       it "returns index" do
-        expect(call).to contain_exactly(*expected)
+        expect(call).to match_array(expected)
       end
     end
 
@@ -78,7 +78,7 @@ RSpec.describe JsDependency do
       end
 
       it "returns expected that don not include pages" do
-        expect(call).to contain_exactly(*expected)
+        expect(call).to match_array(expected)
       end
     end
   end
