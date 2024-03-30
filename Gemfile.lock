@@ -2,7 +2,6 @@ PATH
   remote: .
   specs:
     js_dependency (0.3.15)
-      pathname
       thor
       yaml
 
@@ -57,7 +56,6 @@ GEM
       ast (~> 2.4.1)
       racc
     parslet (2.0.0)
-    pathname (0.3.0)
     proc_to_ast (0.1.0)
       coderay
       parser
