@@ -33,7 +33,7 @@ module JsDependency
         paths = parent_paths(target_path)
         paths += dir_parent_paths(target_path) if target_path.include?("index.js")
 
-        paths.size.zero?
+        paths.empty?
       end
 
       # @param [String] path
