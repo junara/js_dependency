@@ -1,5 +1,9 @@
 ## [Unreleased]
 
+- Breaking change: Support only Ruby 3.0 or later.
+
+- Add support Vue script setup.
+
 ## [0.3.15] - 2022-08-21
 
 - Add exclude_output_names option for export_markdown_report.
