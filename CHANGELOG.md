@@ -1,8 +1,13 @@
 ## [Unreleased]
 
-- Breaking change: Support only Ruby 3.0 or later.
+## [0.4.0] - 2024-03-31
 
-- Add support Vue script setup and lang.
+- Breaking change: Support only Ruby 3.0 or later. [#34](https://github.com/junara/js_dependency/pull/34)
+
+- Add support Vue script setup and lang. [#35](https://github.com/junara/js_dependency/pull/35) [#36](https://github.com/junara/js_dependency/pull/36)
+  - `<script setup>` and `<script lang="ts">` are supported.
+
+- Fix some typos. [#33](https://github.com/junara/js_dependency/pull/33)
 
 ## [0.3.15] - 2022-08-21
 
