@@ -42,14 +42,14 @@ module JsDependency
     # @param [Array<String>] alias_paths
     # @return [Hash]
     def index_from(src_pathname, alias_paths)
-      pattern = %w[**/*.vue **/*.js **/*.jsx]
+      pattern = %w[**/*.vue **/*.js **/*.jsx **/*.ts **/*.tsx]
 
       src_pathname.glob(pattern).each_with_object({}) do |component_pathname, obj|
         import_pathnames = import_pathnames_from(component_pathname, alias_paths)
         import_pathnames += src_javascript_pathnames_from(component_pathname, alias_paths)
 
         obj[component_pathname.to_s] = import_pathnames.map(&:to_s)
-        if component_pathname.basename.to_s == "index.js"
+        if component_pathname.basename.to_s == "index.js" || component_pathname.basename.to_s == "index.ts"
           obj[component_pathname.dirname.to_s] =
             import_pathnames.map(&:to_s)
         end

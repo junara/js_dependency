@@ -1,5 +1,7 @@
 ## [Unreleased]
 
+- Add support ts and tsx file.
+
 ## [0.4.0] - 2024-03-31
 
 - Breaking change: Support only Ruby 3.0 or later. [#34](https://github.com/junara/js_dependency/pull/34)
