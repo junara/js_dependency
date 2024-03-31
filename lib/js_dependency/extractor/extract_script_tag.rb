@@ -23,6 +23,10 @@ module JsDependency
           list << Regexp.last_match(1)
         end
 
+        scripts += str.gsub(%r{<script.+lang=["'][tj]s["']>(.+)</script>}m).with_object([]) do |_, list|
+          list << Regexp.last_match(1)
+        end
+
         scripts.uniq.sort.join("\n")
       end
 
