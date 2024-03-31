@@ -67,8 +67,8 @@ RSpec.describe JsDependency::Extractor::ExtractScriptTag do
           </style>
         SFC
         expect(described_class.call(input)).to eq(
-                                                 "\n  console.log(\"Hello World!\");\n"
-                                               )
+          "\n  console.log(\"Hello World!\");\n"
+        )
       end
       # rubocop:enable RSpec/ExampleLength
     end
@@ -90,8 +90,8 @@ RSpec.describe JsDependency::Extractor::ExtractScriptTag do
           </style>
         SFC
         expect(described_class.call(input)).to eq(
-                                                 "\n  console.log(\"Hello World!\");\n"
-                                               )
+          "\n  console.log(\"Hello World!\");\n"
+        )
       end
       # rubocop:enable RSpec/ExampleLength
     end
@@ -113,8 +113,8 @@ RSpec.describe JsDependency::Extractor::ExtractScriptTag do
           </style>
         SFC
         expect(described_class.call(input)).to eq(
-                                                 "\n  console.log(\"Hello World!\");\n"
-                                               )
+          "\n  console.log(\"Hello World!\");\n"
+        )
       end
       # rubocop:enable RSpec/ExampleLength
     end
