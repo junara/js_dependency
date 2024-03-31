@@ -1,6 +1,8 @@
 ## [Unreleased]
 
-- Add support ts and tsx file.
+## [0.4.1] - 2024-04-01
+
+- Add support ts and tsx file. [#38](https://github.com/junara/js_dependency/pull/38)
 
 ## [0.4.0] - 2024-03-31
 
