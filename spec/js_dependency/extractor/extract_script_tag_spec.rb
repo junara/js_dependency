@@ -50,6 +50,75 @@ RSpec.describe JsDependency::Extractor::ExtractScriptTag do
       # rubocop:enable RSpec/ExampleLength
     end
 
+    context "when the input has script with lang tag" do
+      # rubocop:disable RSpec/ExampleLength
+      it "returns the script tag with" do
+        input = <<~SFC
+          <template>
+            <div>
+              hoge
+            </div>
+          </template>
+          <script lang="ts">
+            console.log("Hello World!");
+          </script>
+          <style>
+            display: flex;
+          </style>
+        SFC
+        expect(described_class.call(input)).to eq(
+          "\n  console.log(\"Hello World!\");\n"
+        )
+      end
+      # rubocop:enable RSpec/ExampleLength
+    end
+
+    context "when the input has script with setup and lang tag" do
+      # rubocop:disable RSpec/ExampleLength
+      it "returns the script tag" do
+        input = <<~SFC
+          <template>
+            <div>
+              hoge
+            </div>
+          </template>
+          <script setup lang='ts'>
+            console.log("Hello World!");
+          </script>
+          <style>
+            display: flex;
+          </style>
+        SFC
+        expect(described_class.call(input)).to eq(
+          "\n  console.log(\"Hello World!\");\n"
+        )
+      end
+      # rubocop:enable RSpec/ExampleLength
+    end
+
+    context "when the input has script with lang and setup tag" do
+      # rubocop:disable RSpec/ExampleLength
+      it "returns the script tag" do
+        input = <<~SFC
+          <template>
+            <div>
+              hoge
+            </div>
+          </template>
+          <script lang='ts' setup>
+            console.log("Hello World!");
+          </script>
+          <style>
+            display: flex;
+          </style>
+        SFC
+        expect(described_class.call(input)).to eq(
+          "\n  console.log(\"Hello World!\");\n"
+        )
+      end
+      # rubocop:enable RSpec/ExampleLength
+    end
+
     context "when the input has no script tag" do
       # rubocop:disable RSpec/ExampleLength
       it "returns empty string" do

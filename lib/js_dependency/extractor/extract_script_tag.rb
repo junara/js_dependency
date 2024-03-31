@@ -15,11 +15,15 @@ module JsDependency
           list << Regexp.last_match(1)
         end
 
-        scripts += str.gsub(%r{<script.+src=".+">(.+)</script>}m).with_object([]) do |_, list|
+        scripts += str.gsub(%r{<script.+src=["'].+["']>(.+)</script>}m).with_object([]) do |_, list|
           list << Regexp.last_match(1)
         end
 
         scripts += str.gsub(%r{<script.+setup>(.+)</script>}m).with_object([]) do |_, list|
+          list << Regexp.last_match(1)
+        end
+
+        scripts += str.gsub(%r{<script.+lang=["'][tj]s["']>(.+)</script>}m).with_object([]) do |_, list|
           list << Regexp.last_match(1)
         end
 
